@@ -65,7 +65,6 @@ export async function updateSport(
   };
 
   try {
-    // Fetch the existing sport
     const existingSport = await prisma.sport.findUnique({
       where: { id: parseInt(id) },
       include: {

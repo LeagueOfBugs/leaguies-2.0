@@ -9,6 +9,8 @@ import leagueRoutes from "./routes/leagueRoutes";
 import playerRoutes from "./routes/playerRoutes";
 import teamRoutes from "./routes/teamRoutes";
 import sportRoutes from "./routes/sportRoutes";
+import positionRoutes from "./routes/positionRoutes";
+import subPositionRoutes from "./routes/subPositionRoutes";
 const prisma = new PrismaClient();
 
 dotenv.config();
@@ -117,6 +119,8 @@ server.register(leagueRoutes, { prefix: "/api/leagues" });
 server.register(teamRoutes, { prefix: "/api/teams" });
 server.register(playerRoutes, { prefix: "/api/players" });
 server.register(sportRoutes, { prefix: "/api/sports" });
+server.register(positionRoutes, { prefix: "/api/positions" });
+server.register(subPositionRoutes, { prefix: "/api/sub-positions" });
 
 server.listen({ port: 8080 }, (err, address) => {
   if (err) {

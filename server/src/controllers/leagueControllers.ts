@@ -56,16 +56,44 @@ export const updateLeague = async (
   reply: FastifyReply
 ) => {
   const { id } = request.params as { id: string };
-  const { name, leagueId } = request.body as { name: string; leagueId: string };
+
+  // Define the types for the request body
+  const { name, teams } = request.body as {
+    name?: string;
+    teams?: Array<{
+      name: string;
+    }>;
+  };
+
   try {
-    const League = await prisma.league.update({
+    const existingLeague = await prisma.league.findUnique({
       where: { id: parseInt(id) },
-      data: { name },
+      include: {
+        teams: true,
+      },
     });
-    reply.send(League);
+
+    if (!existingLeague) {
+      return reply.status(404).send({ error: "League not found." });
+    }
+
+    const updatedLeague = await prisma.league.update({
+      where: { id: parseInt(id) },
+      data: {
+        name: name || existingLeague.name, // Update the name if provided, otherwise keep existing
+        teams: {
+          create: teams?.map((team) => ({
+            name: team.name,
+          })),
+        },
+      },
+    });
+
+    return reply.status(200).send(updatedLeague);
   } catch (error) {
+    console.error(error);
     return reply.status(500).send({
-      error: "An error occurred while updating the player.",
+      error: "An error occurred while updating the league.",
     });
   }
 };
