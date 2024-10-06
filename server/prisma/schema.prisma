@@ -38,10 +38,20 @@ model Team {
 }
 
 model Position {
-  id        Int      @id @default(autoincrement())
-  name      String   
-  sportId   Int      
-  sport     Sport    @relation(fields: [sportId], references: [id])
+  id           Int          @id @default(autoincrement())
+  name         String
+  abbreviation String?     
+  sportId      Int         
+  sport        Sport        @relation(fields: [sportId], references: [id])
+  subPositions SubPosition[] 
+}
+
+model SubPosition {
+  id           Int      @id @default(autoincrement())
+  name         String
+  abbreviation String? // Optional abbreviation field
+  positionId   Int      
+  position     Position  @relation(fields: [positionId], references: [id])
 }
 
 model Player {
@@ -66,6 +76,8 @@ model PlayerStats {
 model StatType {
   id           Int      @id @default(autoincrement())
   name         String   
+  abbreviation String?  
+  description  String?   
   sportId      Int      
   sport        Sport    @relation(fields: [sportId], references: [id])
   playerStats  PlayerStats[] 

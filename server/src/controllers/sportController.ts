@@ -59,12 +59,9 @@ export async function updateSport(
 
   // TODO: Create types for request body
   const { positions, statTypes, leagues } = request.body as {
-    positions?: { name: string }[];
-    statTypes?: { name: string }[];
-    leagues?: {
-      name: string;
-      teams?: { name: string; players?: { name: string }[] }[];
-    }[];
+    positions?: any[];
+    statTypes?: any[];
+    leagues?: any[];
   };
 
   try {
@@ -106,16 +103,18 @@ export async function updateSport(
             name: league.name,
             teams: league.teams
               ? {
-                  create: league.teams.map((team) => ({
-                    name: team.name,
-                    players: team.players
-                      ? {
-                          create: team.players.map((player) => ({
-                            name: player.name,
-                          })),
-                        }
-                      : undefined,
-                  })),
+                  create: league.teams.map(
+                    (team: { name: any; players: any[] }) => ({
+                      name: team.name,
+                      players: team.players
+                        ? {
+                            create: team.players.map((player) => ({
+                              name: player.name,
+                            })),
+                          }
+                        : undefined,
+                    })
+                  ),
                 }
               : undefined,
           })),
