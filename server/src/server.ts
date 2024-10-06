@@ -2,14 +2,8 @@ import fastify from "fastify";
 import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes";
 import fastifyJwt from "@fastify/jwt";
-import {
-  authenticationPlugin,
-  authorizationPlugin,
-} from "./controllers/authController";
-// import profileRoutes from "./routes/profileRoutes";
 import { FastifyRequest } from "fastify/types/request";
 import { FastifyReply } from "fastify/types/reply";
-
 import { PrismaClient } from "@prisma/client";
 import leagueRoutes from "./routes/leagueRoutes";
 import playerRoutes from "./routes/playerRoutes";
@@ -25,43 +19,37 @@ server.register(require("@fastify/formbody"));
 async function fetchJWKS(JWKS_URL: any) {
   try {
     const response = await fetch(JWKS_URL);
-    // console.log(`response`, response);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const jwks = await response.json();
-
     if (!Array.isArray(jwks.keys)) {
       throw new Error("Invalid JWKS response");
     }
-    return jwks.keys[0]; // Access the first key
+    return jwks.keys[0];
   } catch (error) {
     console.error("Error fetching JWKS:", error);
     throw new Error("Could not fetch JWKS");
   }
-}
+};
 
 server.register(fastifyJwt, {
   secret: async (req: FastifyRequest, token: any) => {
     try {
       const keys = await fetchJWKS(process.env.JWT_SECRET!);
-
       if (!req.headers.authorization) {
         throw new Error("Authorization header missing");
       }
       if (!keys) {
         throw new Error("No keys found in JWKS");
       }
-
       const useThisToken = req.headers.authorization.split(" ")[1];
-
       const decodedToken = server.jwt.decode(useThisToken, {
         complete: true,
       }) as {
         header: { kid: string };
         payload: any;
       };
-
       if (keys === decodedToken.header.kid) {
         if (keys.n && keys.e) {
           const publicKey = `-----BEGIN PUBLIC KEY-----\n${Buffer.from(
@@ -97,8 +85,7 @@ server.decorate(
           error: error.message,
         });
       } else {
-        console.error("Authorization failed aelse");
-
+        console.error("Authorization failed else");
         return reply.status(500).send({
           message: "Internal Server Error",
         });
@@ -118,7 +105,6 @@ server.decorate(
       const hasAccess = requiredGroups.some((group) =>
         userGroups.includes(group)
       );
-
       if (!hasAccess) {
         return reply.status(403).send({ message: "Forbidden" });
       }
@@ -126,9 +112,9 @@ server.decorate(
 );
 
 server.register(authRoutes);
-server.register(leagueRoutes, { prefix: "/api/league" });
-server.register(teamRoutes, { prefix: "/api/team" });
-server.register(playerRoutes, { prefix: "/api/player" });
+server.register(leagueRoutes, { prefix: "/api/leagues" });
+server.register(teamRoutes, { prefix: "/api/teams" });
+server.register(playerRoutes, { prefix: "/api/players" });
 
 server.listen({ port: 8080 }, (err, address) => {
   if (err) {

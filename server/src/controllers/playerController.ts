@@ -18,6 +18,28 @@ export const getPlayers = async (
   }
 };
 
+export const findPlayer = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  const { id } = request.params as { id: string };
+  try {
+    const player = await prisma.player.findUnique({
+      where: {
+        id: parseInt(id),
+      },
+      include: {
+        team: true,
+      },
+    });
+    return reply.status(200).send(player);
+  } catch (error) {
+    return reply.status(500).send({
+      error: "An error occurred while fetching the player.",
+    });
+  }
+};
+
 export const createPlayer = async (
   request: FastifyRequest,
   reply: FastifyReply
@@ -30,10 +52,11 @@ export const createPlayer = async (
     reply.send(player);
   } catch (error) {
     return reply.status(500).send({
-      error: "An error occurred while creating the Player.",
+      error: "An error occurred while creating the player.",
     });
   }
 };
+
 export const updatePlayer = async (
   request: FastifyRequest,
   reply: FastifyReply
@@ -52,6 +75,7 @@ export const updatePlayer = async (
     });
   }
 };
+
 export const deletePlayer = async (
   request: FastifyRequest,
   reply: FastifyReply

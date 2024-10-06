@@ -4,11 +4,13 @@ import {
   getLeagues,
   deleteLeague,
   updateLeague,
+  findLeague,
 } from "../controllers/leagueControllers";
 
 async function leagueRoutes(server: FastifyInstance) {
   server.get("/", getLeagues);
   server.post("/create", createLeague);
+  server.get("/:id", findLeague);
   server.delete("/:id", deleteLeague);
   server.put("/:id", updateLeague);
 }

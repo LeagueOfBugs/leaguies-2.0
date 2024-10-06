@@ -35,6 +35,28 @@ export const createTeam = async (
   }
 };
 
+export const findTeam = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  const { id } = request.params as { id: string };
+  try {
+    const team = await prisma.team.findUnique({
+      where: {
+        id: parseInt(id),
+      },
+      include: {
+        players: true,
+      },
+    });
+    return reply.status(200).send(team);
+  } catch (error) {
+    return reply.status(500).send({
+      error: "An error occurred while fetching team.",
+    });
+  }
+};
+
 export const updateTeam = async (
   request: FastifyRequest,
   reply: FastifyReply

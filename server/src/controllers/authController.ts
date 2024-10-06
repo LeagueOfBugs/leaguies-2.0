@@ -19,8 +19,7 @@ export const authenticationPlugin: FastifyPluginAsync = fp(async (server,) => {
             error: error.message,
           });
         } else {
-        console.error("Authorization failed aelse");
-
+        console.error("Authorization failed else");
           return reply.status(500).send({
             message: "Internal Server Error",
           });
@@ -29,7 +28,6 @@ export const authenticationPlugin: FastifyPluginAsync = fp(async (server,) => {
     }
   );
 });
-
 
 export const authorizationPlugin: FastifyPluginAsync = async (server) => {
   server.decorate(
@@ -43,13 +41,13 @@ export const authorizationPlugin: FastifyPluginAsync = async (server) => {
         const hasAccess = requiredGroups.some((group) =>
           userGroups.includes(group)
         );
-
         if (!hasAccess) {
           return reply.status(403).send({ message: "Forbidden" });
         }
       }
   );
 };
+
 export const login = async (request: FastifyRequest, reply: FastifyReply) => {
   const { username, password } = request.body as {
     username: string;
@@ -72,7 +70,7 @@ export const login = async (request: FastifyRequest, reply: FastifyReply) => {
         message: "Login failed",
         error: error.message,
       });
-    } else {
+    } else { 
       console.error("Unknown error:", error);
       return reply.status(500).send({
         message: "Internal Server Error",

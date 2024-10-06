@@ -4,11 +4,13 @@ import {
   getTeams,
   deleteTeam,
   updateTeam,
+  findTeam,
 } from "../controllers/teamControllers";
 
 async function teamRoutes(server: FastifyInstance) {
   server.get("/", getTeams);
   server.post("/create", createTeam);
+  server.get("/:id", findTeam);
   server.delete("/:id", deleteTeam);
   server.put("/:id", updateTeam);
 }

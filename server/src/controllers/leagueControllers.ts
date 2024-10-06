@@ -12,6 +12,28 @@ export const getLeagues = async (
   return reply.status(200).send(leagues);
 };
 
+export const findLeague = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  const { id } = request.params as { id: string };
+  try {
+    const league = await prisma.league.findUnique({
+      where: {
+        id: parseInt(id),
+      },
+      include: {
+        teams: true,
+      },
+    });
+    return reply.status(200).send(league);
+  } catch (error) {
+    return reply.status(500).send({
+      error: "An error occurred while fetching the league.",
+    });
+  }
+};
+
 export const createLeague = async (
   request: FastifyRequest,
   reply: FastifyReply
@@ -19,7 +41,6 @@ export const createLeague = async (
   const { name } = request.body as { name: string };
   try {
     const league = await prisma.league.create({ data: { name } });
-
     return reply.status(201).send(league);
   } catch (error) {
     return reply.status(500).send({
@@ -52,7 +73,6 @@ export const deleteLeague = async (
   reply: FastifyReply
 ) => {
   const { id } = request.params as { id: string };
-
   try {
     await prisma.league.delete({
       where: {
