@@ -7,6 +7,70 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Season {
+  id         Int       @id @default(autoincrement())
+  name       String    
+  startDate  DateTime
+  endDate    DateTime?
+  isCurrent  Boolean   @default(false)
+  matches    Match[]   
+  leagueId   Int       
+  league     League    @relation(fields: [leagueId], references: [id])
+  trophyId   Int?      @unique
+  trophy     Trophy?   @relation("SeasonTrophy", fields: [trophyId], references: [id])
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model Trophy {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?  
+  season      Season?  @relation("SeasonTrophy") 
+  teamId      Int?     
+  team        Team?    @relation(fields: [teamId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Award {
+  id          Int        @id @default(autoincrement())
+  name        String    
+  description String?   
+  playerId    Int       
+  player      Player     @relation(fields: [playerId], references: [id]) // Relation to Player
+  matchId     Int?      
+  match       Match?     @relation("MatchAwards", fields: [matchId], references: [id]) 
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Match {
+  id            Int      @id @default(autoincrement())
+  date          DateTime
+  homeTeamId    Int      
+  awayTeamId    Int      
+  homeTeam      Team     @relation("HomeMatches", fields: [homeTeamId], references: [id])
+  awayTeam      Team     @relation("AwayMatches", fields: [awayTeamId], references: [id])
+  seasonId      Int      
+  season        Season   @relation(fields: [seasonId], references: [id])
+  homeScore     Int?     
+  awayScore     Int?     
+  referees      Referee[] @relation("MatchReferees") 
+  awards        Award[]   @relation("MatchAwards") 
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+
+model Referee {
+  id         Int      @id @default(autoincrement())
+  name       String
+  matches    Match[]  @relation("MatchReferees")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
 model Sport {
   id        Int    @id @default(autoincrement())
   name      String  
@@ -21,6 +85,7 @@ model League {
   id        Int      @id @default(autoincrement())
   name      String
   teams     Team[]
+  seasons   Season[]
   sportId   Int      
   sport     Sport    @relation(fields: [sportId], references: [id])
   createdAt DateTime @default(now())
@@ -28,13 +93,16 @@ model League {
 }
 
 model Team {
-  id        Int      @id @default(autoincrement())
-  name      String
-  players   Player[] 
-  leagueId  Int?
-  league    League?  @relation(fields: [leagueId], references: [id], onDelete: SetNull) 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          Int      @id @default(autoincrement())
+  name        String
+  players     Player[] 
+  leagueId    Int?
+  league      League?  @relation(fields: [leagueId], references: [id], onDelete: SetNull) 
+  homeMatches Match[]  @relation("HomeMatches")
+  awayMatches Match[]  @relation("AwayMatches")
+  trophies    Trophy[] 
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Position {
@@ -50,7 +118,7 @@ model Position {
 model SubPosition {
   id           Int      @id @default(autoincrement())
   name         String
-  abbreviation String? // Optional abbreviation field
+  abbreviation String? 
   positionId   Int      
   position     Position  @relation(fields: [positionId], references: [id])
 }
@@ -61,12 +129,12 @@ model Player {
   teamId     Int?     
   team       Team?         @relation(fields: [teamId], references: [id], onDelete: SetNull) 
   positionId Int?    
+  award      Award[]
   position   Position?     @relation(fields: [positionId], references: [id]) 
   stats      PlayerStats[] 
   createdAt  DateTime      @default(now())
   updatedAt  DateTime      @updatedAt
 }
-
 
 model PlayerStats {
   id           Int      @id @default(autoincrement())

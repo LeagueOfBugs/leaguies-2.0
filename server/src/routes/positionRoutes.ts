@@ -5,7 +5,8 @@ import { createPosition, deletePosition, getPositions } from "../controllers/pos
 async function sportRoutes(server: FastifyInstance) {
   server.get("/", getPositions);
   server.post("/create", createPosition);
-  server.delete("/:id", deletePosition);
+  // Will have to figure out how deletion works with references in prisma
+  // server.delete("/:id", deletePosition);
 }
 
 export default sportRoutes;
