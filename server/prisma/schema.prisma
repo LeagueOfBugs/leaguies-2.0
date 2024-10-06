@@ -38,7 +38,7 @@ model Award {
   name        String    
   description String?   
   playerId    Int       
-  player      Player     @relation(fields: [playerId], references: [id]) // Relation to Player
+  player      Player     @relation(fields: [playerId], references: [id]) 
   matchId     Int?      
   match       Match?     @relation("MatchAwards", fields: [matchId], references: [id]) 
   createdAt   DateTime   @default(now())
@@ -46,20 +46,33 @@ model Award {
 }
 
 model Match {
-  id            Int      @id @default(autoincrement())
+  id            Int       @id @default(autoincrement())
   date          DateTime
   homeTeamId    Int      
   awayTeamId    Int      
-  homeTeam      Team     @relation("HomeMatches", fields: [homeTeamId], references: [id])
-  awayTeam      Team     @relation("AwayMatches", fields: [awayTeamId], references: [id])
+  homeTeam      Team      @relation("HomeMatches", fields: [homeTeamId], references: [id])
+  awayTeam      Team      @relation("AwayMatches", fields: [awayTeamId], references: [id])
   seasonId      Int      
-  season        Season   @relation(fields: [seasonId], references: [id])
+  season        Season    @relation(fields: [seasonId], references: [id])
   homeScore     Int?     
   awayScore     Int?     
   referees      Referee[] @relation("MatchReferees") 
   awards        Award[]   @relation("MatchAwards") 
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  venueId       Int       
+  venue         Venue     @relation(fields: [venueId], references: [id]) 
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+
+model Venue {
+  id         Int      @id @default(autoincrement())
+  name       String
+  location   String   
+  capacity   Int?     
+  matches    Match[]  
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 
@@ -72,13 +85,13 @@ model Referee {
 }
 
 model Sport {
-  id        Int    @id @default(autoincrement())
+  id        Int        @id @default(autoincrement())
   name      String  
   positions Position[]  
   statTypes StatType[] 
   leagues   League[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt    
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt    
 }
 
 model League {
