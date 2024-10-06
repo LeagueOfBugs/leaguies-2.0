@@ -8,6 +8,7 @@ import { PrismaClient } from "@prisma/client";
 import leagueRoutes from "./routes/leagueRoutes";
 import playerRoutes from "./routes/playerRoutes";
 import teamRoutes from "./routes/teamRoutes";
+import sportRoutes from "./routes/sportRoutes";
 const prisma = new PrismaClient();
 
 dotenv.config();
@@ -31,7 +32,7 @@ async function fetchJWKS(JWKS_URL: any) {
     console.error("Error fetching JWKS:", error);
     throw new Error("Could not fetch JWKS");
   }
-};
+}
 
 server.register(fastifyJwt, {
   secret: async (req: FastifyRequest, token: any) => {
@@ -115,6 +116,7 @@ server.register(authRoutes);
 server.register(leagueRoutes, { prefix: "/api/leagues" });
 server.register(teamRoutes, { prefix: "/api/teams" });
 server.register(playerRoutes, { prefix: "/api/players" });
+server.register(sportRoutes, { prefix: "/api/sports" });
 
 server.listen({ port: 8080 }, (err, address) => {
   if (err) {

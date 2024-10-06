@@ -7,11 +7,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Player {
+model Sport {
+  id        Int    @id @default(autoincrement())
+  name      String  
+  positions Position[]  
+  statTypes StatType[] 
+  leagues   League[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt    
+}
+
+model League {
   id        Int      @id @default(autoincrement())
   name      String
-  teamId    Int?     // Optional to allow free agents
-  team      Team?    @relation(fields: [teamId], references: [id], onDelete: SetNull) 
+  teams     Team[]
+  sportId   Int      
+  sport     Sport    @relation(fields: [sportId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -19,19 +30,44 @@ model Player {
 model Team {
   id        Int      @id @default(autoincrement())
   name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
   players   Player[] 
   leagueId  Int?
   league    League?  @relation(fields: [leagueId], references: [id], onDelete: SetNull) 
-}
-
-model League {
-  id        Int      @id @default(autoincrement())
-  name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  teams     Team[]
 }
 
+model Position {
+  id        Int      @id @default(autoincrement())
+  name      String   
+  sportId   Int      
+  sport     Sport    @relation(fields: [sportId], references: [id])
+}
+
+model Player {
+  id        Int      @id @default(autoincrement())
+  name      String
+  teamId    Int?     
+  team      Team?    @relation(fields: [teamId], references: [id], onDelete: SetNull) 
+  stats     PlayerStats[] 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PlayerStats {
+  id           Int      @id @default(autoincrement())
+  playerId     Int      
+  player       Player   @relation(fields: [playerId], references: [id]) 
+  statTypeId   Int      
+  statType     StatType @relation(fields: [statTypeId], references: [id]) 
+  value        Float    
+}
+
+model StatType {
+  id           Int      @id @default(autoincrement())
+  name         String   
+  sportId      Int      
+  sport        Sport    @relation(fields: [sportId], references: [id])
+  playerStats  PlayerStats[] 
+}
 

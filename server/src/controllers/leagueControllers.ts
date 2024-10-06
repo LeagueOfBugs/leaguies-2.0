@@ -40,7 +40,9 @@ export const createLeague = async (
 ) => {
   const { name } = request.body as { name: string };
   try {
-    const league = await prisma.league.create({ data: { name } });
+    const league = await prisma.league.create({
+      data: { name, sportId: Number(1) },
+    });
     return reply.status(201).send(league);
   } catch (error) {
     return reply.status(500).send({
