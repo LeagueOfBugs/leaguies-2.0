@@ -3,7 +3,7 @@ import {
   createSubPosition,
   deleteSubPosition,
   getSubPositions,
-} from "../controllers/subPositionControllers";
+} from "../controllers/subPositionController";
 
 async function sportRoutes(server: FastifyInstance) {
   server.get("/", getSubPositions);

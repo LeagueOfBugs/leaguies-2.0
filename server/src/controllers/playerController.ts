@@ -29,7 +29,7 @@ export const findPlayer = async (
         id: parseInt(id),
       },
       include: {
-        team: true,
+        teams: true,
       },
     });
     return reply.status(200).send(player);
@@ -44,14 +44,30 @@ export const createPlayer = async (
   request: FastifyRequest,
   reply: FastifyReply
 ) => {
-  const { name, teamId, positionId } = request.body as {
+  const { name, positionId, stats, teams } = request.body as {
     name: string;
-    teamId: number;
+    awards: any[];
     positionId: number;
+    stats: any[];
+    teams: any[];
   };
   try {
     const player = await prisma.player.create({
-      data: { name, teamId, positionId },
+      data: {
+        name,
+        positionId,
+        stats: {
+          create: stats.map((stat: any) => ({
+            statTypeId: stat.statTypeId,
+            value: stat.value,
+          })),
+        },
+        teams: {
+          create: teams.map((team: any) => ({
+            team: { connect: { id: team.teamId } },
+          })),
+        },
+      },
     });
     reply.send(player);
   } catch (error) {
@@ -66,13 +82,13 @@ export const createPlayers = async (
   reply: FastifyReply
 ) => {
   const { players } = request.body as { players: any[] };
+
   try {
     const createdPlayers = await Promise.all(
       players.map((player) =>
         prisma.player.create({
           data: {
             name: player.name,
-            teamId: player.teamId,
             positionId: player.positionId
               ? Number(player.positionId)
               : undefined,
@@ -82,6 +98,11 @@ export const createPlayers = async (
                 value: stat.value,
               })),
             },
+            teams: {
+              create: player.teamIds?.map((teamId: number) => ({
+                team: { connect: { id: teamId } },
+              })),
+            },
           },
         })
       )
@@ -89,10 +110,8 @@ export const createPlayers = async (
 
     reply.send(createdPlayers);
   } catch (error) {
-    console.error(error); // Log the error for debugging
-    return reply.status(500).send({
-      error: "An error occurred while creating the players.",
-    });
+    console.error("Error creating players:", error);
+    reply.status(500).send({ error: "Failed to create players" });
   }
 };
 
@@ -101,11 +120,11 @@ export const updatePlayer = async (
   reply: FastifyReply
 ) => {
   const { id } = request.params as { id: string };
-  const { name, teamId } = request.body as { name: string; teamId: number };
+  const { name } = request.body as { name: string };
   try {
     const player = await prisma.player.update({
       where: { id: parseInt(id) },
-      data: { name, teamId },
+      data: { name },
     });
     reply.send(player);
   } catch (error) {

@@ -5,7 +5,7 @@ import {
   deleteTeam,
   updateTeam,
   findTeam,
-} from "../controllers/teamControllers";
+} from "../controllers/teamController";
 
 async function teamRoutes(server: FastifyInstance) {
   server.get("/", getTeams);

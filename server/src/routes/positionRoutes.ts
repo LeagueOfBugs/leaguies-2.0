@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify";
-import { createPosition, deletePosition, getPositions } from "../controllers/positionControllers";
+import { createPosition, deletePosition, getPositions } from "../controllers/positionController";
 
 
 async function sportRoutes(server: FastifyInstance) {
