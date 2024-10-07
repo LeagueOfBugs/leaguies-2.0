@@ -38,10 +38,10 @@ export const createLeague = async (
   request: FastifyRequest,
   reply: FastifyReply
 ) => {
-  const { name } = request.body as { name: string };
+  const { name, sportId } = request.body as { name: string; sportId: number };
   try {
     const league = await prisma.league.create({
-      data: { name, sportId: Number(1) },
+      data: { name, sportId: sportId ?? undefined },
     });
     return reply.status(201).send(league);
   } catch (error) {

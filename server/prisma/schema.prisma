@@ -10,17 +10,18 @@ datasource db {
 model Season {
   id         Int       @id @default(autoincrement())
   name       String    
-  startDate  DateTime
-  endDate    DateTime?
-  isCurrent  Boolean   @default(false)
+  startDate  DateTime? 
+  endDate    DateTime? 
+  isCurrent  Boolean?  @default(false) 
   matches    Match[]   
-  leagueId   Int       
-  league     League    @relation(fields: [leagueId], references: [id])
+  leagueId   Int?      
+  league     League?   @relation(fields: [leagueId], references: [id])
   trophyId   Int?      @unique
   trophy     Trophy?   @relation("SeasonTrophy", fields: [trophyId], references: [id])
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
 }
+
 
 model Trophy {
   id          Int      @id @default(autoincrement())
@@ -37,29 +38,30 @@ model Award {
   id          Int        @id @default(autoincrement())
   name        String    
   description String?   
-  playerId    Int       
-  player      Player     @relation(fields: [playerId], references: [id]) 
+  playerId    Int?       
+  player      Player?     @relation(fields: [playerId], references: [id], onDelete: SetNull) 
   matchId     Int?      
-  match       Match?     @relation("MatchAwards", fields: [matchId], references: [id]) 
+  match       Match?     @relation("MatchAwards", fields: [matchId], references: [id], onDelete: SetNull) 
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
 
 model Match {
   id            Int       @id @default(autoincrement())
-  date          DateTime
-  homeTeamId    Int      
-  awayTeamId    Int      
-  homeTeam      Team      @relation("HomeMatches", fields: [homeTeamId], references: [id])
-  awayTeam      Team      @relation("AwayMatches", fields: [awayTeamId], references: [id])
-  seasonId      Int      
-  season        Season    @relation(fields: [seasonId], references: [id])
+  name          String
+  date          DateTime?  @default(now())
+  homeTeamId    Int?      
+  awayTeamId    Int?      
+  homeTeam      Team?      @relation("HomeMatches", fields: [homeTeamId], references: [id])
+  awayTeam      Team?      @relation("AwayMatches", fields: [awayTeamId], references: [id])
+  seasonId      Int?      
+  season        Season?    @relation(fields: [seasonId], references: [id])
   homeScore     Int?     
   awayScore     Int?     
   referees      MatchReferee[]
   awards        Award[]   @relation("MatchAwards") 
-  venueId       Int       
-  venue         Venue     @relation(fields: [venueId], references: [id]) 
+  venueId       Int?       
+  venue         Venue?     @relation(fields: [venueId], references: [id]) 
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 }
@@ -67,7 +69,7 @@ model Match {
 model Referee {
   id         Int            @id @default(autoincrement())
   name       String
-  matches    MatchReferee[] // Change this to reference the join table
+  matches    MatchReferee[] 
   createdAt  DateTime       @default(now())
   updatedAt  DateTime       @updatedAt
 }
@@ -106,8 +108,8 @@ model League {
   name      String
   teams     Team[]
   seasons   Season[]
-  sportId   Int      
-  sport     Sport    @relation(fields: [sportId], references: [id])
+  sportId   Int?      
+  sport     Sport?    @relation(fields: [sportId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

@@ -22,16 +22,15 @@ export async function createAward(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { name, playerId, matchId } = request.body as {
+  const { name } = request.body as {
     name: string;
-    playerId: number;
-    matchId: number;
   };
 
   try {
     const award = await prisma.award.create({
-      data: { name, playerId, matchId },
+      data: { name },
     });
+    reply.send(award);
   } catch (error) {
     return reply.status(500).send({
       error: "An error occurred while creating an award.",

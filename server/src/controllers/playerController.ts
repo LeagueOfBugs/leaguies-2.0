@@ -46,31 +46,43 @@ export const createPlayer = async (
 ) => {
   const { name, positionId, stats, teams } = request.body as {
     name: string;
-    awards: any[];
-    positionId: number;
-    stats: any[];
-    teams: any[];
+    positionId?: number;
+    stats?: { statTypeId: number; value: number }[];
+    teams?: { teamId: number }[];
   };
+
   try {
     const player = await prisma.player.create({
       data: {
         name,
-        positionId,
-        stats: {
-          create: stats.map((stat: any) => ({
-            statTypeId: stat.statTypeId,
-            value: stat.value,
-          })),
-        },
-        teams: {
-          create: teams.map((team: any) => ({
-            team: { connect: { id: team.teamId } },
-          })),
-        },
+        // positionId: positionId ?? null, // Set to null if not provided
+        // // Conditionally create stats if they exist
+        // ...(stats && stats.length > 0
+        //   ? {
+        //       stats: {
+        //         create: stats.map((stat) => ({
+        //           statTypeId: stat.statTypeId,
+        //           value: stat.value,
+        //         })),
+        //       },
+        //     }
+        //   : {}),
+        // // Conditionally create teams if they exist
+        // ...(teams && teams.length > 0
+        //   ? {
+        //       teams: {
+        //         create: teams.map((team) => ({
+        //           team: { connect: { id: team.teamId } },
+        //         })),
+        //       },
+        //     }
+        //   : {}),
       },
     });
+
     reply.send(player);
   } catch (error) {
+    console.error("Error creating player:", error);
     return reply.status(500).send({
       error: "An error occurred while creating the player.",
     });
