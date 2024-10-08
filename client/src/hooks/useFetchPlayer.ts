@@ -5,13 +5,15 @@ import { fetchPlayer } from "../redux/reducers/userReducer";
 
 const useFetchPlayer = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { loading, error } = useSelector((state: RootState) => state.user);
+  const { loading, error, ...playerData } = useSelector(
+    (state: RootState) => state.user
+  );
 
   useEffect(() => {
     dispatch(fetchPlayer());
   }, [dispatch]);
 
-  return { loading, error };
+  return { loading, error, playerData };
 };
 
 export default useFetchPlayer;

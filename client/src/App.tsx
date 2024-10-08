@@ -1,5 +1,7 @@
+import SplashScreen from "./screens/splash";
+
 function App() {
-  return <div></div>;
+  return <SplashScreen />;
 }
 
 export default App;

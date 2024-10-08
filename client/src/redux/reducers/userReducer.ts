@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import dotenv from "dotenv";
+// import dotenv from "dotenv";
 
-dotenv.config();
+// dotenv.config();
 
 const initialState: User = {
   id: null,
@@ -15,7 +15,8 @@ const initialState: User = {
   error: null,
 };
 
-const playerEndpoint = process.env.PLAYER_ENDPOINT || "";
+const playerEndpoint = "http://localhost:8080/api/players/1";
+console.log(playerEndpoint);
 
 export const fetchPlayer = createAsyncThunk<User, void>(
   playerEndpoint,
