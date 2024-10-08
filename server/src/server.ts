@@ -17,10 +17,17 @@ import seasonRoutes from "./routes/seasonRoutes";
 import trophyRoutes from "./routes/trophyRoutes";
 import venueRoutes from "./routes/venueRoutes";
 import associations from "./routes/associationRoutes";
+import fastifyCors from "@fastify/cors";
 
 dotenv.config();
 
 const server = fastify({ logger: false });
+
+server.register(fastifyCors, {
+  origin: " http://localhost:5173",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Authorization", "Content-Type"],
+});
 
 server.register(require("@fastify/formbody"));
 
