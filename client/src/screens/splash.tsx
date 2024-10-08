@@ -1,10 +1,11 @@
+import { Spinner } from "../components/ui/spinner";
 import useFetchPlayer from "../hooks/useFetchPlayer";
 
 const SplashScreen = () => {
   const { loading, error, playerData } = useFetchPlayer();
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Spinner show={loading} />;
   }
 
   if (error) {
