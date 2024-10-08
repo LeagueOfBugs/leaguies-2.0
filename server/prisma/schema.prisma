@@ -22,7 +22,6 @@ model Season {
   updatedAt  DateTime  @updatedAt
 }
 
-
 model Trophy {
   id          Int      @id @default(autoincrement())
   name        String
@@ -172,7 +171,7 @@ model PlayerStats {
   player       Player   @relation(fields: [playerId], references: [id]) 
   statTypeId   Int      
   statType     StatType @relation(fields: [statTypeId], references: [id]) 
-  value        Float    
+  value        Float?     
 }
 
 model StatType {

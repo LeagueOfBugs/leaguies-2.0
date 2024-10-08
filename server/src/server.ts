@@ -4,7 +4,6 @@ import authRoutes from "./routes/authRoutes";
 import fastifyJwt from "@fastify/jwt";
 import { FastifyRequest } from "fastify/types/request";
 import { FastifyReply } from "fastify/types/reply";
-import { PrismaClient } from "@prisma/client";
 import leagueRoutes from "./routes/leagueRoutes";
 import playerRoutes from "./routes/playerRoutes";
 import teamRoutes from "./routes/teamRoutes";
@@ -17,7 +16,7 @@ import refereeRoutes from "./routes/refereeRoutes";
 import seasonRoutes from "./routes/seasonRoutes";
 import trophyRoutes from "./routes/trophyRoutes";
 import venueRoutes from "./routes/venueRoutes";
-import playerTeamRoutes from "./routes/playerTeamRoutes";
+import associations from "./routes/associationRoutes";
 
 dotenv.config();
 
@@ -133,7 +132,7 @@ server.register(refereeRoutes, { prefix: "/api/referees" });
 server.register(seasonRoutes, { prefix: "/api/seasons" });
 server.register(trophyRoutes, { prefix: "/api/trophy" });
 server.register(venueRoutes, { prefix: "/api/venues" });
-server.register(playerTeamRoutes, { prefix: "/api/associate" });
+server.register(associations, { prefix: "/api/associate" });
 
 server.listen({ port: 8080 }, (err, address) => {
   if (err) {
