@@ -1,5 +1,5 @@
 interface RootState {
-  seasons: Season[];
+  user: User;
 }
 
 interface User {
