@@ -2,9 +2,10 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import MobileNav from "./components/ui/navigation/mobile/MobileNav";
 import Header from "./components/ui/header/header";
 import SplashScreen from "./screens/SplashScreen";
-import PlayerScreen from "./screens/PlayerScreen";
+import PlayerScreen from "./screens/playerScreen/PlayerScreen";
 import LeagueScreen from "./screens/LeagueScreen";
 import TeamScreen from "./screens/TeamScreen";
+import HomeScreen from "./screens/HomeScreen";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<SplashScreen />} />
+        <Route path="/home" element={<HomeScreen />} />
         <Route path="/player" element={<PlayerScreen />} />
         <Route path="/league" element={<LeagueScreen />} />
         <Route path="/team" element={<TeamScreen />} />
