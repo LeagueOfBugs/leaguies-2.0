@@ -21,11 +21,28 @@ export async function createSeason(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { name } = request.body as { name: string };
+  const { name, active, startDate, endDate, leagueId, trophyId, winnerTeamId } =
+    request.body as {
+      name: string;
+      active: boolean;
+      startDate: Date;
+      endDate: Date;
+      matches: [];
+      leagueId: number;
+      trophyId: number;
+      teams: [];
+      winnerTeamId: number;
+    };
   try {
     const season = await prisma.season.create({
       data: {
         name,
+        active,
+        startDate,
+        endDate,
+        leagueId,
+        trophyId,
+        winnerTeamId,
       },
     });
     reply.send(season);

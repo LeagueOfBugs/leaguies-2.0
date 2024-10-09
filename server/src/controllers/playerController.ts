@@ -29,11 +29,36 @@ export const findPlayer = async (
         id: parseInt(id),
       },
       include: {
-        teams: true,
+        teams: {
+          include: {
+            team: {
+              include: {
+                league: {
+                  include: {
+                    sport: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        stats: {
+          include: {
+            statType: {
+              select: {
+                name: true,
+                abbreviation: true,
+              },
+            },
+          },
+        },
       },
     });
+
+    console.log("player", player);
     return reply.status(200).send(player);
   } catch (error) {
+    console.error(error); // Log the error for debugging
     return reply.status(500).send({
       error: "An error occurred while fetching the player.",
     });
@@ -101,9 +126,6 @@ export const createPlayers = async (
         prisma.player.create({
           data: {
             name: player.name,
-            positionId: player.positionId
-              ? Number(player.positionId)
-              : undefined,
             stats: {
               create: player.stats?.map((stat: any) => ({
                 statTypeId: stat.statTypeId,

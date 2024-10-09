@@ -8,18 +8,38 @@ datasource db {
 }
 
 model Season {
-  id         Int       @id @default(autoincrement())
-  name       String    
-  startDate  DateTime? 
-  endDate    DateTime? 
-  isCurrent  Boolean?  @default(false) 
-  matches    Match[]   
-  leagueId   Int?      
-  league     League?   @relation(fields: [leagueId], references: [id])
-  trophyId   Int?      @unique
-  trophy     Trophy?   @relation("SeasonTrophy", fields: [trophyId], references: [id])
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  id            Int       @id @default(autoincrement())
+  name          String
+  active        Boolean   @default(false)
+  startDate     DateTime? 
+  endDate       DateTime? 
+  isCurrent     Boolean?  @default(false) 
+  matches       Match[]   
+  leagueId      Int      
+  league        League   @relation(fields: [leagueId], references: [id])
+  trophyId      Int?      @unique
+  trophy        Trophy?   @relation("SeasonTrophy", fields: [trophyId], references: [id])
+  teams         TeamSeason[]
+  winnerTeamId  Int?      
+  winnerTeam    Team?     @relation("WinningTeam", fields: [winnerTeamId], references: [id]) 
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+
+model TeamSeason {
+  id         Int      @id @default(autoincrement())
+  teamId     Int
+  team       Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  seasonId   Int
+  season     Season   @relation(fields: [seasonId], references: [id], onDelete: Cascade)
+  wins       Int      @default(0) 
+  losses     Int      @default(0) 
+  draws      Int      @default(0) 
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([teamId, seasonId])
 }
 
 model Trophy {
@@ -79,7 +99,7 @@ model MatchReferee {
   match      Match   @relation(fields: [matchId], references: [id], onDelete: Cascade)
   referee    Referee @relation(fields: [refereeId], references: [id], onDelete: Cascade)
 
-  @@id([matchId, refereeId]) // Composite primary key
+  @@id([matchId, refereeId]) 
 }
 
 model Venue {
@@ -98,6 +118,7 @@ model Sport {
   positions Position[]  
   statTypes StatType[] 
   leagues   League[]
+  players   PlayerSport[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt    
 }
@@ -105,26 +126,32 @@ model Sport {
 model League {
   id        Int      @id @default(autoincrement())
   name      String
+  active    Boolean  @default(false)  
   teams     Team[]
   seasons   Season[]
   sportId   Int?      
   sport     Sport?    @relation(fields: [sportId], references: [id])
+  players   PlayerLeague[] 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Team {
-  id          Int      @id @default(autoincrement())
+  id          Int           @id @default(autoincrement())
   name        String
-  players     PlayerTeam[] // Reference to the join table
+  players     PlayerTeam[]  
   leagueId    Int?
-  league      League?  @relation(fields: [leagueId], references: [id], onDelete: SetNull) 
-  homeMatches Match[]  @relation("HomeMatches")
-  awayMatches Match[]  @relation("AwayMatches")
-  trophies    Trophy[] 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  active      Boolean       @default(false)  
+  league      League?       @relation(fields: [leagueId], references: [id], onDelete: SetNull) 
+  homeMatches Match[]       @relation("HomeMatches")
+  awayMatches Match[]       @relation("AwayMatches")
+  trophies    Trophy[]      
+  seasons     TeamSeason[]  
+  winningSeasons Season[]   @relation("WinningTeam") 
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 }
+
 
 model Position {
   id           Int          @id @default(autoincrement())
@@ -133,7 +160,7 @@ model Position {
   sportId      Int         
   sport        Sport        @relation(fields: [sportId], references: [id])
   subPositions SubPosition[] 
-  players      Player[] 
+  players      PlayerPosition[] 
 }
 
 model SubPosition {
@@ -142,18 +169,31 @@ model SubPosition {
   abbreviation String? 
   positionId   Int      
   position     Position  @relation(fields: [positionId], references: [id])
+  playerPositions PlayerPosition[]
 }
 
 model Player {
   id         Int           @id @default(autoincrement())
   name       String
   awards     Award[]
-  positionId Int?    
-  position   Position?     @relation(fields: [positionId], references: [id]) 
+  positions  PlayerPosition[]     
   stats      PlayerStats[] 
-  teams      PlayerTeam[]  // Reference to the join table
+  teams      PlayerTeam[] 
+  leagues    PlayerLeague[]
+  sports     PlayerSport[]
   createdAt  DateTime      @default(now())
   updatedAt  DateTime      @updatedAt
+}
+
+model PlayerPosition {
+  playerId     Int
+  positionId   Int
+  subPositionId Int? 
+  player       Player     @relation(fields: [playerId], references: [id])
+  position     Position   @relation(fields: [positionId], references: [id])
+  subPosition  SubPosition? @relation(fields: [subPositionId], references: [id])
+
+  @@id([playerId, positionId]) 
 }
 
 model PlayerTeam {
@@ -162,7 +202,27 @@ model PlayerTeam {
   player   Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
   team     Team   @relation(fields: [teamId], references: [id], onDelete: Cascade)
 
-  @@id([playerId, teamId]) // Composite primary key
+  @@id([playerId, teamId]) 
+}
+
+model PlayerSport {
+  playerId Int
+  sportId  Int
+
+  player  Player @relation(fields: [playerId], references: [id])
+  sport   Sport  @relation(fields: [sportId], references: [id])
+
+  @@id([playerId, sportId]) 
+}
+
+model PlayerLeague {
+  playerId Int
+  leagueId  Int
+
+  player  Player @relation(fields: [playerId], references: [id])
+  league  League @relation(fields: [leagueId], references: [id])
+
+  @@id([playerId, leagueId]) 
 }
 
 model PlayerStats {
