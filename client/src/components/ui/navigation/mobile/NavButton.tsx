@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import { Button } from "../../button";
 
 interface NavButtonProps {
@@ -8,14 +8,18 @@ interface NavButtonProps {
 }
 
 const NavButton = ({ toScreen, icon, title }: NavButtonProps) => {
+  const navigate = useNavigate();
+
   const handleOnClick = () => {
-    Navigate({ to: toScreen });
+    console.log(toScreen);
+    navigate(toScreen);
   };
 
   return (
     <Button variant="ghost" className="h-16" onClick={handleOnClick}>
       <div className="flex flex-col items-center justify-center">
-        <span className="mt-1">{title}</span> {icon}
+        {icon}
+        <span className="mt-1">{title}</span>
       </div>
     </Button>
   );

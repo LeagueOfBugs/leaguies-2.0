@@ -6,9 +6,9 @@ const MobileNav = () => {
     <nav className="fixed bottom-0 left-0 right-0">
       <div className="flex justify-around items-center h-16">
         <NavButton toScreen="/" icon={<House />} title="Home" />
-        <NavButton toScreen="/" icon={<Trophy />} title="League" />
-        <NavButton toScreen="/" icon={<UserRound />} title="Player" />
-        <NavButton toScreen="/" icon={<UsersRound />} title="Team" />
+        <NavButton toScreen="/player" icon={<UserRound />} title="Player" />
+        <NavButton toScreen="/league" icon={<Trophy />} title="League" />
+        <NavButton toScreen="/team" icon={<UsersRound />} title="Team" />
       </div>
     </nav>
   );
