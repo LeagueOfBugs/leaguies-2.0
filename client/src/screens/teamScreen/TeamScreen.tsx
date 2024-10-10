@@ -1,6 +1,6 @@
 import { NavLink, Outlet } from "react-router-dom";
-import { Separator } from "../components/ui/separator";
-import Layout from "./Layout";
+import { Separator } from "../../components/ui/separator";
+import Layout from "../Layout";
 
 export const Record = () => <div>Record Component</div>;
 export const Roster = () => <div>Roster Component</div>;

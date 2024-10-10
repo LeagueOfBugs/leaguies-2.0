@@ -3,10 +3,10 @@ import MobileNav from "./components/ui/navigation/mobile/MobileNav";
 import Header from "./components/ui/header/header";
 import SplashScreen from "./screens/SplashScreen";
 import LeagueScreen from "./screens/LeagueScreen";
-import TeamScreen, { Activity, Record, Roster } from "./screens/TeamScreen";
 import HomeScreen from "./screens/HomeScreen";
 import PlayerScreen from "./screens/playerScreen/PlayerScreen";
 import useFetchPlayer from "./hooks/useFetchPlayer";
+import TeamRoutes from "./screens/teamScreen/TeamRoutes";
 
 function App() {
   useFetchPlayer();
@@ -20,12 +20,7 @@ function App() {
         <Route path="/home" element={<HomeScreen />} />
         <Route path="/league" element={<LeagueScreen />} />
         <Route path="/player" element={<PlayerScreen />} />
-        <Route path="/team" element={<TeamScreen />}>
-          <Route index element={<Record />} />
-          <Route path="record" element={<Record />} />
-          <Route path="roster" element={<Roster />} />
-          <Route path="activity" element={<Activity />} />
-        </Route>
+        <Route path="/team/*" element={<TeamRoutes />} />
       </Routes>
       <MobileNav />
     </Router>

@@ -11,7 +11,6 @@ const NavButton = ({ toScreen, icon, title }: NavButtonProps) => {
   const navigate = useNavigate();
 
   const handleOnClick = () => {
-    console.log(toScreen);
     navigate(toScreen);
   };
 

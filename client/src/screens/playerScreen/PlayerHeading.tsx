@@ -8,7 +8,6 @@ import { selectUser } from "../../redux/selectors/userSelectors";
 
 const PlayerHeading = () => {
   const user = useSelector(selectUser);
-  console.log("user", user);
   return (
     <div className="flex flex-col items-center space-y-4">
       <Avatar className="h-24 w-24">
