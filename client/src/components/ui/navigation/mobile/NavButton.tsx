@@ -15,7 +15,11 @@ const NavButton = ({ toScreen, icon, title }: NavButtonProps) => {
   };
 
   return (
-    <Button variant="ghost" className="h-16" onClick={handleOnClick}>
+    <Button
+      variant="ghost"
+      className="h-16 bg-customGray"
+      onClick={handleOnClick}
+    >
       <div className="flex flex-col items-center justify-center">
         {icon}
         <span className="mt-1">{title}</span>
