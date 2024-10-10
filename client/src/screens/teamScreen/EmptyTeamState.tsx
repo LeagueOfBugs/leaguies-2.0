@@ -13,15 +13,15 @@ const EmptyTeamState = () => {
     },
   ];
 
-  const EmptyTeamContent = {
+  const emptyTeamContent = {
     title: "No Teams Found!",
     description: "It looks like you're not a member of any teams.",
   };
 
   return (
     <EmptyStateTemplate
-      title={EmptyTeamContent.title}
-      description={EmptyTeamContent.description}
+      title={emptyTeamContent.title}
+      description={emptyTeamContent.description}
     >
       <CTAButton ctas={ctaButtons} />
     </EmptyStateTemplate>
