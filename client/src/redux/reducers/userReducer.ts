@@ -8,7 +8,8 @@ const initialState: User = {
   id: null,
   name: "",
   awards: [],
-  positionId: null,
+  positions: [],
+  sports: [],
   stats: [],
   teams: [],
   loading: false,
@@ -18,14 +19,14 @@ const initialState: User = {
 const playerEndpoint = "http://localhost:8080/api/players/1";
 console.log(playerEndpoint);
 
-export const fetchPlayer = createAsyncThunk<User, void>(
+export const fetchPlayer = createAsyncThunk(
   playerEndpoint,
   async (_, { rejectWithValue }) => {
     if (!playerEndpoint) {
       return rejectWithValue("Player endpoint is not defined.");
     }
     try {
-      const response = await axios.get<User>(playerEndpoint);
+      const response = await axios.get(playerEndpoint);
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -51,21 +52,71 @@ const userSlice = createSlice({
       state.error = null;
     });
     builder.addCase(fetchPlayer.fulfilled, (state, action) => {
-      const { id, name, awards, positionId, stats, teams } = action.payload;
-      state.loading = false;
-      state.error = null;
+      const { id, name, awards, positions, sports, stats, teams } =
+        action.payload;
+      console.log("in client", action.payload);
 
+      // STATS
+      const playerStats = stats as PlayerStatsAssociation[];
+      const formattedStatsArray = Array.isArray(playerStats)
+        ? playerStats.map((stat) => ({
+            name: stat.statType.name,
+            value: stat.value,
+          }))
+        : [];
+
+      // SPORTS
+      const playerSports = sports as PlayerSportAssociation[];
+      const formattedSportsArray = Array.isArray(playerSports)
+        ? playerSports.map((sport) => sport.sport.name)
+        : [];
+
+      // POSITIONS
+      const playerPositions = positions as PlayerPositionAssociation[];
+      const formattedPositionsArray = Array.isArray(playerPositions)
+        ? playerPositions.map((position) => {
+            const subPositionId = position.subPositionId;
+            const findSubPosition = position.position.subPositions.find(
+              (subPos) => subPos.id === subPositionId
+            );
+
+            return {
+              sport: position.position.sport.name,
+              name: position.position.name,
+              abbreviation: position.position.abbreviation,
+              subPosition: findSubPosition,
+            };
+          })
+        : [];
+
+      // TEAMS
+      const playerTeams = teams as PlayerTeamResponse;
+      const formattedTeamsArray = Array.isArray(playerTeams)
+        ? playerTeams.map((team) => {
+            const newTeam = {
+              name: team.team.name,
+              league: team.team.league ? team.team.league.name : null,
+            };
+            console.log(`index`, newTeam);
+            return newTeam;
+          })
+        : [];
+
+      console.log(`formmattedTeamsArray`, formattedTeamsArray);
       state.id = id;
       state.name = name;
       state.awards = awards;
-      state.positionId = positionId;
-      state.stats = stats;
-      state.teams = teams;
+      state.positions = formattedPositionsArray;
+      state.stats = formattedStatsArray;
+      state.sports = formattedSportsArray;
+      state.teams = formattedTeamsArray;
+      state.loading = false;
+      state.error = null;
     });
     builder.addCase(fetchPlayer.rejected, (state, action) => {
       state.loading = false;
       state.error =
-        action.error.message || "failed to fetcch user: client generated error";
+        action.error.message || "failed to fetch user: client generated error";
     });
   },
 });

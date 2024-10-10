@@ -1,5 +1,16 @@
+// import DisplayCard from "./PlayerScreenCards";
+import { Separator } from "../../components/ui/separator";
+import Layout from "../Layout";
+import PlayerHeading from "./PlayerHeading";
+
 const PlayerScreen = () => {
-  return <div> player screen</div>;
+  return (
+    <Layout>
+      <PlayerHeading />
+      <Separator className="my-5" />
+      {/* <DisplayCard /> */}
+    </Layout>
+  );
 };
 
 export default PlayerScreen;

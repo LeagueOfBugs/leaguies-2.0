@@ -6,8 +6,11 @@ import LeagueScreen from "./screens/LeagueScreen";
 import TeamScreen, { Activity, Record, Roster } from "./screens/TeamScreen";
 import HomeScreen from "./screens/HomeScreen";
 import PlayerScreen from "./screens/playerScreen/PlayerScreen";
+import useFetchPlayer from "./hooks/useFetchPlayer";
 
 function App() {
+  useFetchPlayer();
+
   return (
     <Router>
       <Header />
