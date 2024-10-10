@@ -32,10 +32,11 @@ export const findPlayer = async (
         teams: {
           include: {
             team: {
-              include: {
+              select: {
+                name: true,
                 league: {
-                  include: {
-                    sport: true,
+                  select: {
+                    name: true,
                   },
                 },
               },
@@ -47,7 +48,47 @@ export const findPlayer = async (
             statType: {
               select: {
                 name: true,
+              },
+            },
+          },
+        },
+        positions: {
+          include: {
+            position: {
+              select: {
+                name: true,
                 abbreviation: true,
+                subPositions: {
+                  select: {
+                    id: true,
+                    name: true,
+                    abbreviation: true,
+                  },
+                },
+                sport: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+        leagues: {
+          include: {
+            league: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+        awards: true,
+        sports: {
+          include: {
+            sport: {
+              select: {
+                name: true,
               },
             },
           },
@@ -55,7 +96,6 @@ export const findPlayer = async (
       },
     });
 
-    console.log("player", player);
     return reply.status(200).send(player);
   } catch (error) {
     console.error(error); // Log the error for debugging

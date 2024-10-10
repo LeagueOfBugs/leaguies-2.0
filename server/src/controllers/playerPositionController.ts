@@ -10,7 +10,7 @@ export const assocciationPlayerToPosition = async (
   const { playerId, positionId, subPositionId } = request.body as {
     playerId: number;
     positionId: number;
-    subPositionId?: number; // Make subPositionId optional
+    subPositionId?: number;
   };
 
   try {
