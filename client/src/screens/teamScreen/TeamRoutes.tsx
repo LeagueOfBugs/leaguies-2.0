@@ -1,5 +1,8 @@
 import { Route, Routes } from "react-router-dom";
-import TeamScreen, { Activity, Record, Roster } from "./TeamScreen";
+import TeamScreen from "./TeamScreen";
+import Record from "./Record";
+import Roster from "./Roster";
+import Activity from "./Activity";
 
 const TeamRoutes = () => {
   return (
