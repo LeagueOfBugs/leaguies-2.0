@@ -9,6 +9,11 @@ const PlayerScreen = () => {
       <PlayerHeading />
       <Separator className="my-5" />
       <DisplayCard />
+      <DisplayCard />
+      <DisplayCard />
+      <DisplayCard />
+      <DisplayCard />
+      <DisplayCard />
     </Layout>
   );
 };

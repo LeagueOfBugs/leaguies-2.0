@@ -18,6 +18,7 @@ export default {
         "2xl": "1536px",
       },
       colors: {
+        customGray: "#16181D",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
