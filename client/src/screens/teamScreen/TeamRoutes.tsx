@@ -1,4 +1,3 @@
-// src/screens/teamScreen/TeamRoutes.tsx
 import { Route, Routes } from "react-router-dom";
 import TeamScreen, { Activity, Record, Roster } from "./TeamScreen";
 

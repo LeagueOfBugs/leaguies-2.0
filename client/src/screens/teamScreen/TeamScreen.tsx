@@ -1,34 +1,30 @@
-import { NavLink, Outlet } from "react-router-dom";
-import { Separator } from "../../components/ui/separator";
 import Layout from "../Layout";
+import NavLayout from "../../components/ui/NavLayout";
 
 export const Record = () => <div>Record Component</div>;
 export const Roster = () => <div>Roster Component</div>;
 export const Activity = () => <div>Activity Component</div>;
 
 const TeamScreen = () => {
+  const teamScreenNavLinks = [
+    {
+      to: "record",
+      label: "Record",
+    },
+    {
+      to: "roster",
+      label: "Roster",
+    },
+    {
+      to: "activity",
+      label: "Activity",
+    },
+  ];
+
   return (
     <Layout>
-      <div className="flex-col h-full">
-        <nav className="flex-col h-10">
-          <div className="flex space-x-4">
-            <NavLink to="record" className="p-2">
-              Record
-            </NavLink>
-            <NavLink to="roster" className="p-2">
-              Roster
-            </NavLink>
-            <NavLink to="activity" className="p-2">
-              Activity
-            </NavLink>
-          </div>
-          <Separator />
-        </nav>
-
-        <div className="flex-grow overflow-auto p-4">
-          <Outlet />
-        </div>
-      </div>
+      <div>Team Screen</div>
+      <NavLayout navLinks={teamScreenNavLinks} />
     </Layout>
   );
 };
