@@ -22,7 +22,7 @@ const DisplayCard: React.FC<DisplayCardProps> = ({
   return (
     <Card className="rounded-[5px]">
       {header && (
-        <CardHeader className="flex flex-col m-0 px-2 pt-2 space-y-0 space-x-2">
+        <CardHeader className="flex flex-col m-0 px-2 py-2 space-y-0 space-x-2">
           <div className="flex flex-row space-x-2 items-center">
             <ShieldHalf className="w-6 h-6" />
             <span className="text-2xl">{header}</span>
