@@ -26,7 +26,7 @@ const LeagueScreen = () => {
   const { leagueId } = useParams();
   const navigate = useNavigate();
   return (
-    <div className="flex flex-col items-center w-svw space-y-5">
+    <div className="flex flex-col items-center w-svw">
       <ChevronLeft
         className="w-8 h-8 self-baseline mr-5 mt-2"
         onClick={() => navigate("/league")}

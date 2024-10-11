@@ -101,6 +101,7 @@ interface PlayerLeaguesResponse {
 }
 
 interface PlayerLeagues {
+  leagueId: number;
   name: string;
 }
 

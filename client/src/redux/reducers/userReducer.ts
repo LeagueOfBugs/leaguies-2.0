@@ -55,6 +55,7 @@ const userSlice = createSlice({
     builder.addCase(fetchPlayer.fulfilled, (state, action) => {
       const { name, awards, positions, sports, stats, teams, leagues } =
         action.payload;
+      console.log("in reducer", action.payload);
 
       // STATS
       const playerStats = stats as PlayerStatsAssociation[];
@@ -105,7 +106,7 @@ const userSlice = createSlice({
       const playerLeagues = leagues as PlayerLeaguesResponse;
       const formattedLeaguesArray = Array.isArray(playerLeagues)
         ? playerLeagues.map((league) => {
-            return league.league.name;
+            return { name: league.league.name, leagueId: league.league.id };
           })
         : [];
 

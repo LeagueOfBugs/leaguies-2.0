@@ -6,7 +6,7 @@ import LeagueItem from "./LeagueItem";
 
 const Leagues = () => {
   const player = useSelector(selectPlayer);
-
+  console.log(player);
   const leagues = player.teams
     ?.filter((team) => team.league !== null)
     .map((team) => team.league);
