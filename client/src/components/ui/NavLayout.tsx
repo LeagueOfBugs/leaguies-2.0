@@ -13,7 +13,7 @@ const NavLayout = ({ navLinks }: NavLayoutProps) => {
   return (
     <div className="flex-col h-full w-full">
       <nav className="flex-col h-10">
-        <div className="flex space-x-4 justify-center">
+        <div className="flex space-x-10 justify-center">
           {navLinks.map((link) => (
             <NavLink key={link.to} to={link.to}>
               {link.label}
