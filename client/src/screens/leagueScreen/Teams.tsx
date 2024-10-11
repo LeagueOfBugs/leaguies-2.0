@@ -1,5 +1,9 @@
+import DisplayCard from "../../components/displayCard/DisplayCard";
+
+const teamCardHeader = "Registered Teams";
+
 const Teams = () => {
-  return <div>Teams</div>;
+  return <DisplayCard header={teamCardHeader}>hello</DisplayCard>;
 };
 
 export default Teams;

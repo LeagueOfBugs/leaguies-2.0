@@ -1,4 +1,4 @@
-import { Separator } from "../../separator";
+import { Separator } from "../../ui/separator";
 import NavButton from "./NavButton";
 import { House, UsersRound, Trophy, UserRound } from "lucide-react";
 

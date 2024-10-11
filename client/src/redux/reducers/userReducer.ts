@@ -12,6 +12,7 @@ const initialState: Player = {
   sports: [],
   stats: [],
   teams: [],
+  leagues: [],
   loading: false,
   error: null,
 };
@@ -52,7 +53,7 @@ const userSlice = createSlice({
       state.error = null;
     });
     builder.addCase(fetchPlayer.fulfilled, (state, action) => {
-      const { id, name, awards, positions, sports, stats, teams } =
+      const { name, awards, positions, sports, stats, teams, leagues } =
         action.payload;
 
       // STATS
@@ -100,13 +101,21 @@ const userSlice = createSlice({
           })
         : [];
 
-      state.id = id;
+      // LEAGUES
+      const playerLeagues = leagues as PlayerLeaguesResponse;
+      const formattedLeaguesArray = Array.isArray(playerLeagues)
+        ? playerLeagues.map((league) => {
+            return league.league.name;
+          })
+        : [];
+
       state.name = name;
       state.awards = awards;
       state.positions = formattedPositionsArray;
       state.stats = formattedStatsArray;
       state.sports = formattedSportsArray;
       state.teams = formattedTeamsArray;
+      state.leagues = formattedLeaguesArray;
       state.loading = false;
       state.error = null;
     });

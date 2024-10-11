@@ -88,6 +88,22 @@ interface PlayerTeams {
   league: string;
 }
 
+interface PlayerLeagueAssociation {
+  league: {
+    name: string;
+  };
+  leagueId: number;
+  playerId: number;
+}
+
+interface PlayerLeaguesResponse {
+  leagues: PlayerLeagueAssociation[] | [];
+}
+
+interface PlayerLeagues {
+  name: string;
+}
+
 interface Player {
   id: string | null;
   name: string;
@@ -95,7 +111,8 @@ interface Player {
   positions?: PlayerPositions[] | [];
   sports?: string[] | [];
   stats?: PlayerStats[] | [];
-  teams?: PlayerTeams[];
+  teams?: PlayerTeams[] | [];
+  leagues?: PlayerLeagues[] | [];
   loading?: boolean;
   error?: string | null;
 }

@@ -1,5 +1,5 @@
-import EmptyStateTemplate from "../../components/ui/EmptyStateTemplate";
-import CTAButton from "../../components/ui/CTAButton";
+import EmptyStateTemplate from "../../components/EmptyStateTemplate";
+import CTAButton from "../../components/CTAButton";
 
 const emptyLeagueContent = {
   title: "No Leagues Found!",

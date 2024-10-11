@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"; // Import useNavigate
-import { Button } from "../../button";
+import { Button } from "../../ui/button";
 
 interface NavButtonProps {
   toScreen: string;

@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import MobileNav from "./components/ui/navigation/mobile/MobileNav";
-import Header from "./components/ui/header/header";
+import MobileNav from "./components/navigation/mobile/MobileNav";
+import Header from "./components/header/header";
 import SplashScreen from "./screens/SplashScreen";
 import HomeScreen from "./screens/HomeScreen";
 import PlayerScreen from "./screens/playerScreen/PlayerScreen";

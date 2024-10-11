@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback } from "./avatar";
+import { Avatar, AvatarFallback } from "./ui/avatar";
 
 const Badge = () => {
   return (

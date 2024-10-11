@@ -1,6 +1,6 @@
-import NavLayout from "../../components/ui/NavLayout";
-import Badge from "../../components/ui/Badge";
-import CTAButton from "../../components/ui/CTAButton";
+import NavLayout from "../../components/NavLayout";
+import Badge from "../../components/Badge";
+import CTAButton from "../../components/CTAButton";
 import { useParams } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";

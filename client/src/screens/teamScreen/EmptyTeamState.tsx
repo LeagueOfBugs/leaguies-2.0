@@ -1,5 +1,5 @@
-import CTAButton from "../../components/ui/CTAButton";
-import EmptyStateTemplate from "../../components/ui/EmptyStateTemplate";
+import CTAButton from "../../components/CTAButton";
+import EmptyStateTemplate from "../../components/EmptyStateTemplate";
 
 const EmptyTeamState = () => {
   const ctaButtons = [

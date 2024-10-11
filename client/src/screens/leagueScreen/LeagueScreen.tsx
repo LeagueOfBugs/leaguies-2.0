@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
-import Badge from "../../components/ui/Badge";
-import NavLayout from "../../components/ui/NavLayout";
+import Badge from "../../components/Badge";
+import NavLayout from "../../components/NavLayout";
 import { ChevronLeft } from "lucide-react";
 
 const leagueScreenNavLinks = [

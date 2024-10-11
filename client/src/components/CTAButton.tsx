@@ -1,4 +1,4 @@
-import { Button } from "./button";
+import { Button } from "./ui/button";
 
 interface CTAButton {
   label: string;
