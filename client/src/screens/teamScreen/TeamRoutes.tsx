@@ -14,15 +14,14 @@ const TeamRoutes = () => {
       {noTeams ? (
         <Route path="/" element={<EmptyTeamState />} />
       ) : (
-        <>
-          <Route index element={<Teams />} />
-          <Route path="/:teamId" element={<TeamScreen />}>
-            <Route path="record" element={<Record />} />
-            <Route path="roster" element={<Roster />} />
-            <Route path="activity" element={<Activity />} />
-          </Route>
-        </>
+        <Route index element={<Teams />} />
       )}
+      <Route path="/:teamId" element={<TeamScreen />}>
+        <Route index element={<Roster />} />
+        <Route path="roster" element={<Roster />} />
+        <Route path="record" element={<Record />} />
+        <Route path="activity" element={<Activity />} />
+      </Route>
     </Routes>
   );
 };

@@ -5,6 +5,7 @@ import Rules from "./Rules";
 import Schedule from "./Schedule";
 import Season from "./Season";
 import EmptyLeagueState from "./EmptyLeagueState";
+import Leagues from "./Leagues";
 
 const TeamRoutes = () => {
   const noLeagues = false;
@@ -13,14 +14,15 @@ const TeamRoutes = () => {
       {noLeagues ? (
         <Route path="/" element={<EmptyLeagueState />} />
       ) : (
-        <Route path="/" element={<LeagueScreen />}>
-          <Route index element={<Teams />} />
-          <Route path="teams" element={<Teams />} />
-          <Route path="rules" element={<Rules />} />
-          <Route path="schedule" element={<Schedule />} />
-          <Route path="season" element={<Season />} />
-        </Route>
+        <Route index element={<Leagues />} />
       )}
+      <Route path="/:leagueId" element={<LeagueScreen />}>
+        <Route index element={<Teams />} />
+        <Route path="teams" element={<Teams />} />
+        <Route path="rules" element={<Rules />} />
+        <Route path="schedule" element={<Schedule />} />
+        <Route path="season" element={<Season />} />
+      </Route>
     </Routes>
   );
 };
