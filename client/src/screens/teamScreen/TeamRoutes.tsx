@@ -6,7 +6,7 @@ import Activity from "./Activity";
 import EmptyTeamState from "./EmptyTeamState";
 
 const TeamRoutes = () => {
-  const noTeams = true;
+  const noTeams = false;
   return (
     <Routes>
       {noTeams ? (

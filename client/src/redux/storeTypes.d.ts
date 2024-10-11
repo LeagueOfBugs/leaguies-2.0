@@ -1,5 +1,5 @@
 interface RootState {
-  user: User;
+  player: User;
 }
 // user reducer types
 interface PlayerSportAssociation {
@@ -88,7 +88,7 @@ interface PlayerTeams {
   league: string;
 }
 
-interface User {
+interface Player {
   id: string | null;
   name: string;
   awards?: [];

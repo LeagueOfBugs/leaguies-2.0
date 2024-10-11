@@ -1,4 +1,3 @@
-import { title } from "process";
 import EmptyStateTemplate from "../../components/ui/EmptyStateTemplate";
 import CTAButton from "../../components/ui/CTAButton";
 

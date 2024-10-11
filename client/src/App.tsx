@@ -14,7 +14,7 @@ function App() {
   return (
     <Router>
       <Header />
-      <div className="mb-12"></div>
+      <div className="mb-10"></div>
       <Routes>
         <Route path="/" element={<SplashScreen />} />
         <Route path="/home" element={<HomeScreen />} />

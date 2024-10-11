@@ -4,7 +4,7 @@ import axios from "axios";
 
 // dotenv.config();
 
-const initialState: User = {
+const initialState: Player = {
   id: null,
   name: "",
   awards: [],

@@ -3,7 +3,7 @@ import userSlice from "./reducers/userReducer";
 
 const store = configureStore({
   reducer: {
-    user: userSlice.reducer,
+    player: userSlice.reducer,
     // seasons: seasonSlice.reducer,
     // leagues: () => {},
     // teams: () => {},

@@ -7,7 +7,7 @@ import Season from "./Season";
 import EmptyLeagueState from "./EmptyLeagueState";
 
 const TeamRoutes = () => {
-  const noLeagues = true;
+  const noLeagues = false;
   return (
     <Routes>
       {noLeagues ? (

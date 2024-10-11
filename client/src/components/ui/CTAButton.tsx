@@ -8,11 +8,12 @@ interface CTAButton {
 interface CTAButtonProps {
   ctas: CTAButton[];
 }
+
 const CTAButton = ({ ctas }: CTAButtonProps) => {
   return (
-    <div className=" flex-col space-y-5">
+    <div className="flex flex-col space-y-5">
       {ctas.map((cta) => (
-        <Button variant="default" className="w-full rounded-full">
+        <Button variant="default" className="w-40 h-7 rounded-full">
           {cta.label}
         </Button>
       ))}

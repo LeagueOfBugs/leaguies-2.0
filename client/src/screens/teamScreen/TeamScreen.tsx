@@ -1,5 +1,6 @@
-import Layout from "../Layout";
 import NavLayout from "../../components/ui/NavLayout";
+import Badge from "../../components/ui/Badge";
+import CTAButton from "../../components/ui/CTAButton";
 
 const TeamScreen = () => {
   const teamScreenNavLinks = [
@@ -17,11 +18,27 @@ const TeamScreen = () => {
     },
   ];
 
+  const teamCTA = [
+    {
+      label: "REQUEST TO JOIN",
+      onClick: () => {},
+    },
+    {
+      label: "FOLLOW TEAM",
+      onClick: () => {},
+    },
+  ];
+
   return (
-    <Layout>
-      <div>Team Screen</div>
+    <div className="flex flex-col items-center w-svw space-y-5">
+      <div className="pt-5">
+        <Badge />
+      </div>
+      <div className="max-w-52">
+        <CTAButton ctas={teamCTA} />
+      </div>
       <NavLayout navLinks={teamScreenNavLinks} />
-    </Layout>
+    </div>
   );
 };
 

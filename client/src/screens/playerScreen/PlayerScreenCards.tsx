@@ -6,13 +6,14 @@ import {
   CardHeader,
   CardTitle,
 } from "../../components/ui/card";
-import { selectUser } from "../../redux/selectors/userSelectors";
+
 import { MoveRight } from "lucide-react";
 import { Separator } from "../../components/ui/separator";
 import { Avatar, AvatarFallback } from "../../components/ui/avatar";
+import { selectPlayer } from "../../redux/selectors/userSelectors";
 
 const PlayerScreenCards = () => {
-  const user = useSelector(selectUser);
+  const player = useSelector(selectPlayer);
 
   return (
     <div className="space-y-4">
@@ -23,7 +24,7 @@ const PlayerScreenCards = () => {
         </CardHeader>
         <CardContent>
           <ul>
-            {user?.teams?.map((team, index) => {
+            {player?.teams?.map((team, index) => {
               return (
                 <li
                   key={team.name + index}
@@ -55,12 +56,12 @@ const PlayerScreenCards = () => {
           <Separator />
         </CardHeader>
         <CardContent>
-          {user?.sports?.map((sport) => {
+          {player?.sports?.map((sport) => {
             return (
               <div key={sport}>
                 <h3>{sport} </h3>
                 <ul>
-                  {user?.positions?.map((position) => {
+                  {player?.positions?.map((position) => {
                     if (position.sport === sport) {
                       return (
                         <li key={position.name}>

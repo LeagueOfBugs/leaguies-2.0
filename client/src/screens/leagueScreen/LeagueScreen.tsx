@@ -1,3 +1,4 @@
+import Badge from "../../components/ui/Badge";
 import NavLayout from "../../components/ui/NavLayout";
 import Layout from "../Layout";
 
@@ -20,10 +21,12 @@ const LeagueScreen = () => {
       label: "Schedule",
     },
   ];
-  
+
   return (
     <Layout>
-      <div>League Screen</div>
+      <div className="flex justify-center">
+        <Badge />
+      </div>
       <NavLayout navLinks={leagueScreenNavLinks} />
     </Layout>
   );
