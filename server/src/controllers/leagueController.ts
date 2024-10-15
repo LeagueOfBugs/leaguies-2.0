@@ -26,7 +26,8 @@ export const findLeague = async (
         teams: true,
       },
     });
-    return reply.status(200).send(league);
+    console.log(`league: ${league}`);
+    reply.status(200).send(league);
   } catch (error) {
     return reply.status(500).send({
       error: "An error occurred while fetching the league.",

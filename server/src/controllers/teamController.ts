@@ -18,6 +18,24 @@ export const getTeams = async (
   }
 };
 
+export const getUnregisteredTeams = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  try {
+    const leaguelessTeams = prisma.team.findMany({
+      where: {
+        leagueId: null,
+      },
+    });
+    reply.send(leaguelessTeams);
+  } catch (error) {
+    return reply.status(500).send({
+      error: "An error occurred while fetching teams.",
+    });
+  }
+};
+
 export const createTeam = async (
   request: FastifyRequest,
   reply: FastifyReply
