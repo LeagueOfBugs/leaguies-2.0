@@ -1,24 +1,25 @@
 import { useSelector } from "react-redux";
 import EmptyLeagueState from "./EmptyLeagueState";
-import LeagueList from "./LeagueList";
-import { selectPlayer } from "../../redux/selectors/userSelectors";
+import { selectPlayer } from "../../redux/selectors/playerSelectors";
 import LeagueItem from "./LeagueItem";
+import DisplayCard from "../../components/displayCard/DisplayCard";
 
 const Leagues = () => {
   const player = useSelector(selectPlayer);
-  console.log(player);
-  const leagues = player.teams
-    ?.filter((team) => team.league !== null)
-    .map((team) => team.league);
+  const leagues = player.leagues;
 
   if (!leagues) return <EmptyLeagueState />;
 
   return (
-    <LeagueList>
-      {leagues.map((league) => (
-        <LeagueItem key={league} leagueName={league} />
+    <DisplayCard header="My Leagues">
+      {leagues.map((league: League) => (
+        <LeagueItem
+          key={league.id}
+          leagueName={league.name}
+          leagueId={league.id}
+        />
       ))}
-    </LeagueList>
+    </DisplayCard>
   );
 };
 export default Leagues;

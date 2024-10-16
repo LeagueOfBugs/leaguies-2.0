@@ -9,6 +9,7 @@ interface NavLayoutProps {
 }
 
 const NavLayout = ({ navLinks }: NavLayoutProps) => {
+  console.log("navLayout rendered");
   return (
     <div className="flex flex-col h-full w-full">
       <nav className="flex-col">

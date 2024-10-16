@@ -1,5 +1,6 @@
 interface RootState {
   player: User;
+  leagues: League[];
 }
 // user reducer types
 interface PlayerSportAssociation {
@@ -136,8 +137,16 @@ interface Season {
 }
 
 interface Team {
-  team: {
-    id: number;
-    name: string;
-  };
+  id: number;
+  name: string;
+}
+
+interface League {
+  active: boolean;
+  id: number;
+  name: string;
+  players?: [];
+  seasons?: [];
+  sport?: string;
+  teams?: Team[];
 }

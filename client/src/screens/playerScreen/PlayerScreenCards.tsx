@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { Avatar, AvatarFallback } from "../../components/ui/avatar";
-import { selectPlayer } from "../../redux/selectors/userSelectors";
+import { selectPlayer } from "../../redux/selectors/playerSelectors";
 import DisplayCard from "../../components/displayCard/DisplayCard";
 import SubScreenLayout from "../../components/SubScreenLayout";
 

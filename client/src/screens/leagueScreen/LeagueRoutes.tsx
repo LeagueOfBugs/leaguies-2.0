@@ -1,11 +1,12 @@
 import { Route, Routes } from "react-router-dom";
 import LeagueScreen from "./LeagueScreen";
-import Teams from "./Teams";
-import Rules from "./Rules";
-import Schedule from "./Schedule";
-import Season from "./Season";
+
 import EmptyLeagueState from "./EmptyLeagueState";
 import Leagues from "./Leagues";
+import Teams from "./nestedScreens/Teams";
+import Rules from "./nestedScreens/Rules";
+import Schedule from "./nestedScreens/Schedule";
+import Season from "./nestedScreens/Season";
 
 const TeamRoutes = () => {
   const noLeagues = false;

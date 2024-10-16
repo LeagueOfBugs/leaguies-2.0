@@ -1,6 +1,12 @@
 import { Link } from "react-router-dom";
 
-const LeagueItem = ({ leagueName }: { leagueName: string }) => {
-  return <Link to={leagueName}>{leagueName}</Link>;
+const LeagueItem = ({
+  leagueId,
+  leagueName,
+}: {
+  leagueId: number;
+  leagueName: string;
+}) => {
+  return <Link to={leagueId.toString()}>{leagueName}</Link>;
 };
 export default LeagueItem;

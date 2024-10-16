@@ -4,7 +4,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "../../components/ui/avatar";
-import { selectPlayer } from "../../redux/selectors/userSelectors";
+import { selectPlayer } from "../../redux/selectors/playerSelectors";
 
 const PlayerHeading = () => {
   const player = useSelector(selectPlayer);
