@@ -4,16 +4,16 @@ import { selectPlayer } from "../../redux/selectors/playerSelectors";
 import DisplayCard from "../../components/displayCard/DisplayCard";
 
 const PlayerScreenCards = () => {
-  const player = useSelector(selectPlayer);
-  console.log(player);
+  const player: Player = useSelector(selectPlayer);
+
   return (
-    <section className="flex flex-col space-y-2">
+    <section className="flex flex-col space-y-2 no-scrollbar">
       <DisplayCard header={"Teams"}>
         <ul>
-          {player?.teams?.map((team, index) => {
+          {player?.teams?.map((team) => {
             return (
               <li
-                key={team.name + index}
+                key={team.id}
                 className="flex flex-row items-center space-x-2 py-2"
               >
                 <Avatar className="h-8 w-8">
@@ -28,19 +28,37 @@ const PlayerScreenCards = () => {
         </ul>
       </DisplayCard>
 
-      <DisplayCard header={"Positions"}>
-        <ul>
-          {player.positions.map((position) => {
-            return (
-              <li key={position.position}>
-                {position.sport}: {position.position}
-              </li>
-            );
-          })}
-        </ul>
+      {/* FIX TYPE ISSUES HERE */}
+      <DisplayCard header={"Stats"}>
+        {player?.stats?.map((stat) => {
+          const [sport] = Object.keys(stat);
+          console.log(sport);
+          return (
+            <ul key={sport}>
+              <span>{sport}</span>
+              {stat[sport].map((st) => {
+                return (
+                  <li key={st.statName}>
+                    {st.statName}: {st.value ?? 0}
+                  </li>
+                );
+              })}
+            </ul>
+          );
+        })}
       </DisplayCard>
-      <DisplayCard header={"Stats"}>Player Stats</DisplayCard>
-      <DisplayCard header={"awards"}>Player awards</DisplayCard>
+
+      <DisplayCard header={"awards"}>
+        {player?.awards?.length ? (
+          <ul>
+            {player.awards.map((award) => {
+              return <li key={award}>{award}</li>;
+            })}
+          </ul>
+        ) : (
+          <span>No awards</span>
+        )}
+      </DisplayCard>
     </section>
   );
 };

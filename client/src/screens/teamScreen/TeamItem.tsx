@@ -2,15 +2,12 @@ import { Link } from "react-router-dom";
 
 interface TeamItemProps {
   teamName: string;
-  league: string;
 }
 
-const TeamItem = ({ teamName, league }: TeamItemProps) => {
+const TeamItem = ({ teamName }: TeamItemProps) => {
   return (
     <li>
-      <Link to={teamName}>
-        {teamName} : {league ? league : "N/A"}
-      </Link>
+      <Link to={teamName}>{teamName}</Link>
     </li>
   );
 };

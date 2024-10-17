@@ -5,9 +5,10 @@ import EmptyTeamState from "./EmptyTeamState";
 import DisplayCard from "../../components/displayCard/DisplayCard";
 
 const Teams = () => {
-  const player = useSelector(selectPlayer);
-  const teams = player?.teams;
+  const player: Player = useSelector(selectPlayer);
+  const teams = player?.teams ?? [];
 
+  console.log(teams);
   if (!teams.length) return <EmptyTeamState />;
 
   return (
@@ -15,11 +16,7 @@ const Teams = () => {
       <DisplayCard header="Teams">
         <ul>
           {teams.map((team) => (
-            <TeamItem
-              key={team.name}
-              teamName={team.name}
-              league={team.league}
-            />
+            <TeamItem key={team.name} teamName={team.name} />
           ))}
         </ul>
       </DisplayCard>

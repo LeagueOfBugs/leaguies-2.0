@@ -28,9 +28,15 @@ interface PlayerStatsResponse {
   stats: PlayerStatsAssociation[];
 }
 
-interface PlayerStats {
+interface Stat {
   name: string;
   value: number;
+}
+
+type Sports = 'soccer' | 'football' | 'basketball' | 'baseball' | 'hockey' | 'volleyball';
+
+interface PlayerStats {
+  [key in Sports]?: Stat[];
 }
 
 interface PlayerPositionAssociation {
@@ -59,14 +65,9 @@ interface PlayerPositionResponse {
 
 interface PlayerPositions {
   sport: string;
-  name: string;
-  abbreviation: string;
-  subPosition:
-    | {
-        name: string;
-        abbreviation: string;
-      }
-    | undefined;
+  position: string;
+  positionAbbreviation: string;
+  subPosition: string | null;
 }
 
 interface PlayerTeamsAssociation {
@@ -85,8 +86,8 @@ interface PlayerTeamResponse {
 }
 
 interface PlayerTeams {
+  id: number;
   name: string;
-  league: string;
 }
 
 interface PlayerLeagueAssociation {
@@ -106,12 +107,15 @@ interface PlayerLeagues {
   name: string;
 }
 
+interface Award {
+  name: number;
+}
+
 interface Player {
   id: string | null;
   name: string;
-  awards?: [];
+  awards?: Award[];
   positions?: PlayerPositions[] | [];
-  sports?: string[] | [];
   stats?: PlayerStats[] | [];
   teams?: PlayerTeams[] | [];
   leagues?: PlayerLeagues[] | [];
@@ -139,11 +143,16 @@ interface Team {
   name: string;
 }
 
+interface Players {
+  id: number;
+  name: string;
+}
+
 interface League {
   active: boolean;
   id: number;
   name: string;
-  players?: [];
+  players?: Players[];
   seasons?: Season[];
   sport?: string;
   teams?: Team[];
