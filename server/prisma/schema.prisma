@@ -126,9 +126,11 @@ model Sport {
 model League {
   id        Int      @id @default(autoincrement())
   name      String
+  teamLimit Int?
   active    Boolean  @default(false)  
   teams     Team[]
   seasons   Season[]
+  staff     LeagueStaff[]
   sportId   Int?      
   sport     Sport?    @relation(fields: [sportId], references: [id])
   players   PlayerLeague[] 
@@ -139,8 +141,10 @@ model League {
 model Team {
   id          Int           @id @default(autoincrement())
   name        String
-  players     PlayerTeam[]  
+  players     PlayerTeam[]
+  playerLimit Int?  
   leagueId    Int?
+  staff       TeamStaff[]
   active      Boolean       @default(false)  
   league      League?       @relation(fields: [leagueId], references: [id], onDelete: SetNull) 
   homeMatches Match[]       @relation("HomeMatches")
@@ -243,4 +247,41 @@ model StatType {
   sport        Sport    @relation(fields: [sportId], references: [id])
   playerStats  PlayerStats[] 
 }
+
+model Staff {
+  id          Int      @id @default(autoincrement())
+  name        String
+  role        String   // Role of the staff (e.g., Coach, Assistant, etc.)
+  teams       TeamStaff[]
+  leagues     LeagueStaff[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model TeamStaff {
+  id         Int      @id @default(autoincrement())
+  teamId     Int
+  staffId    Int
+  team       Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  staff      Staff    @relation(fields: [staffId], references: [id], onDelete: Cascade)
+  role       String?   // Specific role in the team
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([teamId, staffId])
+}
+
+model LeagueStaff {
+  id         Int      @id @default(autoincrement())
+  leagueId   Int
+  staffId    Int
+  league     League   @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  staff      Staff    @relation(fields: [staffId], references: [id], onDelete: Cascade)
+  role       String   // Specific role in the league
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([leagueId, staffId])
+}
+
 

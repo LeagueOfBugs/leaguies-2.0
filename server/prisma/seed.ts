@@ -725,6 +725,300 @@ async function main() {
   for (const statType of statTypes) {
     await prisma.statType.create({ data: statType });
   }
+
+  const seedSeasons = [
+    {
+      name: "season 2024",
+      active: true,
+      leagueId: 1,
+      startDate: new Date("2024-01-01"),
+      endDate: new Date("2024-12-31"),
+    },
+    {
+      name: "season 2023",
+      active: false,
+      leagueId: 1,
+      startDate: new Date("2023-01-01"),
+      endDate: new Date("2023-12-31"),
+    },
+    {
+      name: "season 2024",
+      active: true,
+      leagueId: 2,
+      startDate: new Date("2024-01-01"),
+      endDate: new Date("2024-12-31"),
+    },
+    {
+      name: "season 2023",
+      active: false,
+      leagueId: 2,
+      startDate: new Date("2023-01-01"),
+      endDate: new Date("2023-12-31"),
+    },
+    {
+      name: "season 2024",
+      active: true,
+      leagueId: 3,
+      startDate: new Date("2024-01-01"),
+      endDate: new Date("2024-12-31"),
+    },
+    {
+      name: "season 2023",
+      active: false,
+      leagueId: 3,
+      startDate: new Date("2023-01-01"),
+      endDate: new Date("2023-12-31"),
+    },
+  ];
+
+  const seedLeagues = [
+    {
+      name: "English Premier League",
+      sportId: 1,
+      teamLimit: 20,
+      active: true,
+    },
+    {
+      name: "La Liga",
+      sportId: 1,
+      teamLimit: 24,
+      active: true,
+    },
+    {
+      name: "Major League Soccer",
+      sportId: 1,
+      teamLimit: 29,
+      active: true,
+    },
+  ];
+
+  const seedTeams = [
+    { name: "Manchester City", leagueId: 1 },
+    { name: "Arsenal", leagueId: 1 },
+    { name: "Liverpool", leagueId: 1 },
+    { name: "Manchester United", leagueId: 1 },
+    { name: "Chelsea", leagueId: 1 },
+    { name: "FC Barcelona", leagueId: 2 },
+    { name: "Real Madrid", leagueId: 2 },
+    { name: "Atlético Madrid", leagueId: 2 },
+    { name: "Sevilla FC", leagueId: 2 },
+    { name: "Real Sociedad", leagueId: 2 },
+    { name: "Inter Miami CF", leagueId: 3 },
+    { name: "LAFC", leagueId: 3 },
+    { name: "Atlanta United FC", leagueId: 3 },
+    { name: "Seattle Sounders FC", leagueId: 3 },
+    { name: "Nashville SC", leagueId: 3 },
+    { name: "New York City FC", leagueId: 3 },
+    { name: "FC Cincinnati", leagueId: 3 },
+    { name: "Philadelphia Union", leagueId: 3 },
+    { name: "St. Louis City SC", leagueId: 3 },
+    { name: "Portland Timbers", leagueId: 3 },
+  ];
+
+  const seedPlayers = [
+    { name: "Erling Haaland", teamId: 1, leagueId: 1, sportId: 1 },
+    { name: "Bukayo Saka", teamId: 1, leagueId: 1, sportId: 1 },
+    { name: "Mohamed Salah", teamId: 1, leagueId: 1, sportId: 1 },
+    { name: "Robert Lewandowski", teamId: 2, leagueId: 2, sportId: 1 },
+    { name: "Antoine Griezmann", teamId: 2, leagueId: 2, sportId: 1 },
+    { name: "Vinícius Júnior", teamId: 2, leagueId: 2, sportId: 1 },
+    { name: "Pedri", teamId: 2, leagueId: 2, sportId: 1 },
+    { name: "Federico Valverde", teamId: 2, leagueId: 2, sportId: 1 },
+    { name: "João Félix", teamId: 2, leagueId: 2, sportId: 1 },
+    { name: "Iago Aspas", teamId: 2, leagueId: 2, sportId: 1 },
+    { name: "Rodrygo", teamId: 2, leagueId: 2, sportId: 1 },
+    { name: "Youssef En-Nesyri", teamId: 2, leagueId: 2, sportId: 1 },
+    { name: "Mikel Oyarzabal", teamId: 2, leagueId: 2, sportId: 1 },
+    { name: "Lionel Messi", teamId: 11, leagueId: 3, sportId: 1 },
+    { name: "Hany Mukhtar", teamId: 3, leagueId: 3, sportId: 1 },
+    { name: "Josef Martínez", teamId: 3, leagueId: 3, sportId: 1 },
+    { name: "Thiago Almada", teamId: 3, leagueId: 3, sportId: 1 },
+    { name: "Denis Bouanga", teamId: 3, leagueId: 3, sportId: 1 },
+    { name: "Cristian Espinoza", teamId: 3, leagueId: 3, sportId: 1 },
+    { name: "Carlos Vela", teamId: null, sportId: 1 },
+    { name: "Jordan Morris", teamId: null, sportId: 1 },
+    { name: "Luciano Acosta", teamId: null, sportId: 1 },
+    { name: "João Klauss", teamId: null, sportId: 1 },
+  ];
+
+  for (const league of seedLeagues) {
+    const createdLeague = await prisma.league.create({
+      data: league,
+    });
+  }
+
+  for (const season of seedSeasons) {
+    await prisma.season.create({
+      data: season,
+    });
+  }
+
+  for (const team of seedTeams) {
+    const createdTeam = await prisma.team.create({
+      data: team,
+    });
+  }
+
+  for (const player of seedPlayers) {
+    const createdPlayer = await prisma.player.create({
+      data: { name: player.name },
+    });
+
+    if (player.teamId !== null) {
+      const relationship = await prisma.playerTeam.create({
+        data: {
+          player: { connect: { id: createdPlayer.id } },
+          team: { connect: { id: player.teamId } },
+        },
+      });
+
+      console.log(`Relationship created: ${relationship}`);
+    }
+
+    if (player.leagueId) {
+      await prisma.playerLeague.create({
+        data: {
+          player: { connect: { id: createdPlayer.id } },
+          league: { connect: { id: player.leagueId } },
+        },
+      });
+    }
+
+    await prisma.playerSport.create({
+      data: {
+        player: { connect: { id: createdPlayer.id } },
+        sport: { connect: { id: player.sportId } },
+      },
+    });
+  }
+
+  const referees = [
+    {
+      name: "John Doe",
+    },
+    {
+      name: "Jimmy Smith",
+    },
+    {
+      name: "Steve Jobs",
+    },
+  ];
+
+  for (const referee of referees) {
+    await prisma.referee.create({
+      data: referee,
+    });
+  }
+
+  const leagueStaff = [
+    {
+      name: "Javier Tebas Medrano",
+      role: "Chairman",
+      leagueId: 1,
+    },
+    {
+      name: "Alison Brittain",
+      role: "Chairman",
+      leagueId: 2,
+    },
+    {
+      name: "Don Garber",
+      role: "Commissioner",
+      leagueId: 3,
+    },
+  ];
+
+  for (const staff of leagueStaff) {
+    const staffCreated = await prisma.staff.create({
+      data: { name: staff.name, role: staff.role },
+    });
+
+    await prisma.leagueStaff.create({
+      data: {
+        staff: { connect: { id: staffCreated.id } },
+        league: { connect: { id: staff.leagueId } },
+        role: staff.role,
+      },
+    });
+  }
+
+  const teamStaff = [
+    {
+      name: "Gerardo 'Tata' Martino",
+      role: "Head Coach",
+      teamId: 11,
+    },
+    {
+      name: "Jorge Theiler",
+      role: "Assistant Coach",
+      teamId: 11,
+    },
+  ];
+
+  for (const staff of teamStaff) {
+    const staffCreated = await prisma.staff.create({
+      data: { name: staff.name, role: staff.role },
+    });
+
+    await prisma.teamStaff.create({
+      data: {
+        staff: { connect: { id: staffCreated.id } },
+        team: { connect: { id: staff.teamId } },
+        role: staff.role,
+      },
+    });
+  }
+
+  const playerAwards = [
+    {
+      name: "MVP",
+      playerId: 14,
+    },
+    {
+      name: "Ballon d'Or",
+      playerId: 14,
+    },
+    {
+      name: "FIFA World Player of the Year",
+      playerId: 14,
+    },
+  ];
+
+  for (const award of playerAwards) {
+    await prisma.award.create({
+      data: award,
+    });
+  }
+
+  const getSoccerStats = await prisma.statType.findMany({
+    where: {
+      sportId: 1,
+    },
+  });
+
+  for (const stat of getSoccerStats) {
+    await prisma.playerStats.create({
+      data: {
+        player: { connect: { id: 14 } },
+        statType: { connect: { id: stat.id } },
+      },
+    });
+  }
+
+  await prisma.playerPosition.create({
+    data: {
+      position: { connect: { id: 4 } },
+      player: { connect: { id: 14 } },
+      subPosition: { connect: { id: 4 } },
+    },
+  });
+
+  await prisma.teamSeason.create({
+    data: {
+      team: { connect: { id: 11 } },
+      season: { connect: { id: 1 } },
+    },
+  });
 }
 
 main()

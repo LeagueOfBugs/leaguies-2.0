@@ -34,6 +34,20 @@ export const findPlayer = async (
             team: {
               select: {
                 name: true,
+                players: {
+                  include: {
+                    player: {
+                      select: {
+                        id: true,
+                        name: true,
+                        positions: true,
+                      },
+                    },
+                  },
+                },
+                active: true,
+                seasons: true,
+                trophies: true,
                 league: {
                   select: {
                     name: true,
@@ -274,28 +288,6 @@ export const createPlayer = async (
     const player = await prisma.player.create({
       data: {
         name,
-        // positionId: positionId ?? null, // Set to null if not provided
-        // // Conditionally create stats if they exist
-        // ...(stats && stats.length > 0
-        //   ? {
-        //       stats: {
-        //         create: stats.map((stat) => ({
-        //           statTypeId: stat.statTypeId,
-        //           value: stat.value,
-        //         })),
-        //       },
-        //     }
-        //   : {}),
-        // // Conditionally create teams if they exist
-        // ...(teams && teams.length > 0
-        //   ? {
-        //       teams: {
-        //         create: teams.map((team) => ({
-        //           team: { connect: { id: team.teamId } },
-        //         })),
-        //       },
-        //     }
-        //   : {}),
       },
     });
 
