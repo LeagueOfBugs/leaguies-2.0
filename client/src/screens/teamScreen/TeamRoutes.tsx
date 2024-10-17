@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 import TeamScreen from "./TeamScreen";
-import Record from "./Record";
-import Roster from "./Roster";
-import Activity from "./Activity";
+import Record from "./nestedScreens/Record";
+import Roster from "./nestedScreens/Roster";
+import Activity from "./nestedScreens/Activity";
 import EmptyTeamState from "./EmptyTeamState";
 import Teams from "./Teams";
 

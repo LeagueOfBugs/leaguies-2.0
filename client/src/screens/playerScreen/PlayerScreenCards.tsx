@@ -2,13 +2,12 @@ import { useSelector } from "react-redux";
 import { Avatar, AvatarFallback } from "../../components/ui/avatar";
 import { selectPlayer } from "../../redux/selectors/playerSelectors";
 import DisplayCard from "../../components/displayCard/DisplayCard";
-import SubScreenLayout from "../../components/SubScreenLayout";
 
 const PlayerScreenCards = () => {
   const player = useSelector(selectPlayer);
-
+  console.log(player);
   return (
-    <SubScreenLayout>
+    <section className="flex flex-col space-y-2">
       <DisplayCard header={"Teams"}>
         <ul>
           {player?.teams?.map((team, index) => {
@@ -30,27 +29,19 @@ const PlayerScreenCards = () => {
       </DisplayCard>
 
       <DisplayCard header={"Positions"}>
-        {player?.sports?.map((sport) => {
-          return (
-            <div key={sport}>
-              <h3>{sport} </h3>
-              <ul>
-                {player?.positions?.map((position) => {
-                  if (position.sport === sport) {
-                    return (
-                      <li key={position.name}>
-                        {position.name} ({position.abbreviation}):{" "}
-                        {position.subPosition?.name}
-                      </li>
-                    );
-                  }
-                })}
-              </ul>
-            </div>
-          );
-        })}
+        <ul>
+          {player.positions.map((position) => {
+            return (
+              <li key={position.position}>
+                {position.sport}: {position.position}
+              </li>
+            );
+          })}
+        </ul>
       </DisplayCard>
-    </SubScreenLayout>
+      <DisplayCard header={"Stats"}>Player Stats</DisplayCard>
+      <DisplayCard header={"awards"}>Player awards</DisplayCard>
+    </section>
   );
 };
 

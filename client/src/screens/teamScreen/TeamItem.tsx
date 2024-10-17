@@ -7,9 +7,11 @@ interface TeamItemProps {
 
 const TeamItem = ({ teamName, league }: TeamItemProps) => {
   return (
-    <Link to={teamName}>
-      {teamName} : {league ? league : "N/A"}
-    </Link>
+    <li>
+      <Link to={teamName}>
+        {teamName} : {league ? league : "N/A"}
+      </Link>
+    </li>
   );
 };
 

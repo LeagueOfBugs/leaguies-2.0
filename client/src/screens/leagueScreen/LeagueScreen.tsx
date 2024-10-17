@@ -28,9 +28,9 @@ const leagueScreenNavLinks = [
 const LeagueScreen = () => {
   const { leagueId } = useParams();
   const navigate = useNavigate();
-
+  console.log(leagueId);
   const player = useSelector(selectPlayer);
-
+  console.log(player);
   const playerLeague = player.leagues.find(
     (league: League) => league.id === Number(leagueId)
   );
@@ -49,6 +49,7 @@ const LeagueScreen = () => {
         <div className="flex justify-center">
           <Badge />
         </div>
+        <span>{playerLeague.sport}</span>
         <span>League: {playerLeague.name}</span>
         <NavLayout navLinks={leagueScreenNavLinks} />
       </div>

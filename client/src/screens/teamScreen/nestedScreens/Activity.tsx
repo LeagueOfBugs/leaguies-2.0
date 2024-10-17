@@ -1,5 +1,5 @@
-import DisplayCard from "../../components/displayCard/DisplayCard";
-import SubScreenLayout from "../../components/SubScreenLayout";
+import DisplayCard from "../../../components/displayCard/DisplayCard";
+import SubScreenLayout from "../../../components/SubScreenLayout";
 
 const Activity = () => {
   return (
@@ -10,4 +10,5 @@ const Activity = () => {
     </SubScreenLayout>
   );
 };
+
 export default Activity;

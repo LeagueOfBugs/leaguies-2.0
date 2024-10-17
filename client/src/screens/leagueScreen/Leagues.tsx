@@ -7,8 +7,9 @@ import DisplayCard from "../../components/displayCard/DisplayCard";
 const Leagues = () => {
   const player = useSelector(selectPlayer);
   const leagues = player.leagues;
-
-  if (!leagues) return <EmptyLeagueState />;
+  if (!leagues.length) {
+    return <EmptyLeagueState />;
+  }
 
   return (
     <DisplayCard header="My Leagues">

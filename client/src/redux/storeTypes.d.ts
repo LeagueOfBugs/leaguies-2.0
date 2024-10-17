@@ -126,14 +126,12 @@ interface Seasons {
 }
 
 interface Season {
-  id?: string;
-  name?: string;
+  id: string;
+  name: string;
+  active: boolean;
   startDate?: Date;
   endDate?: Date;
-  isCurrent: boolean;
-  matches?: Match[];
-  leagueId?: string;
-  trophyId?: string;
+  trophy?: string;
 }
 
 interface Team {
@@ -146,7 +144,7 @@ interface League {
   id: number;
   name: string;
   players?: [];
-  seasons?: [];
+  seasons?: Season[];
   sport?: string;
   teams?: Team[];
 }

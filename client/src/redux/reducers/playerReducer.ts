@@ -16,8 +16,7 @@ const initialState: Player = {
   error: null,
 };
 
-const playerEndpoint = "http://localhost:8080/api/players/1";
-console.log(playerEndpoint);
+const playerEndpoint = "http://localhost:8080/api/players/14";
 
 export const fetchPlayer = createAsyncThunk(
   playerEndpoint,
@@ -27,7 +26,6 @@ export const fetchPlayer = createAsyncThunk(
     }
     try {
       const response = await axios.get(playerEndpoint);
-      console.log("response", response.data);
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -53,63 +51,9 @@ const userSlice = createSlice({
       state.error = null;
     });
     builder.addCase(fetchPlayer.fulfilled, (state, action) => {
-      const { name, awards, positions, stats, teams, leagues } =
-        action.payload;
-      // console.log("in reducer", action.payload);
+      const { name, awards, positions, stats, teams, leagues } = action.payload;
 
-      // // STATS
-      // const playerStats = stats as PlayerStatsAssociation[];
-      // const formattedStatsArray = Array.isArray(playerStats)
-      //   ? playerStats.map((stat) => ({
-      //       name: stat.statType.name,
-      //       value: stat.value,
-      //     }))
-      //   : [];
-
-      // // SPORTS
-      // const playerSports = sports as PlayerSportAssociation[];
-      // const formattedSportsArray = Array.isArray(playerSports)
-      //   ? playerSports.map((sport) => sport.sport.name)
-      //   : [];
-
-      // // POSITIONS
-      // const playerPositions = positions as PlayerPositionAssociation[];
-      // const formattedPositionsArray = Array.isArray(playerPositions)
-      //   ? playerPositions.map((position) => {
-      //       const subPositionId = position.subPositionId;
-      //       const findSubPosition = position.position.subPositions.find(
-      //         (subPos) => subPos.id === subPositionId
-      //       );
-
-      //       return {
-      //         sport: position.position.sport.name,
-      //         name: position.position.name,
-      //         abbreviation: position.position.abbreviation,
-      //         subPosition: findSubPosition,
-      //       };
-      //     })
-      //   : [];
-
-      // // TEAMS
-      // const playerTeams = teams as PlayerTeamResponse;
-      // const formattedTeamsArray = Array.isArray(playerTeams)
-      //   ? playerTeams.map((team) => {
-      //       const newTeam = {
-      //         name: team.team.name,
-      //         league: team.team.league ? team.team.league.name : null,
-      //       };
-      //       return newTeam;
-      //     })
-      //   : [];
-
-      // // LEAGUES
-      // const playerLeagues = leagues as PlayerLeaguesResponse;
-      // const formattedLeaguesArray = Array.isArray(playerLeagues)
-      //   ? playerLeagues.map((league) => {
-      //       return { name: league.league.name, leagueId: league.league.id };
-      //     })
-      //   : [];
-
+      console.log("in reducer: ", action.payload);
       state.name = name;
       state.leagues = leagues;
       state.teams = teams;

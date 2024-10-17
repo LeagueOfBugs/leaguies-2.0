@@ -1,5 +1,5 @@
-import DisplayCard from "../../components/displayCard/DisplayCard";
-import SubScreenLayout from "../../components/SubScreenLayout";
+import DisplayCard from "../../../components/displayCard/DisplayCard";
+import SubScreenLayout from "../../../components/SubScreenLayout";
 
 const Roster = () => {
   return (
