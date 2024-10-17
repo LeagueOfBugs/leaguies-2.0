@@ -7,7 +7,9 @@ import useSWR from "swr";
 const Teams = () => {
   const { league } = useLeague();
   const { data: teams, error } = useSWR("nearbyTeams", fetchNearbyTeams);
-  console.log("error", error);
+
+  if (error) return <div>Failed to load</div>;
+  if (!teams) return <div>Loading...</div>;
   return (
     <SubScreenLayout>
       <DisplayCard header={"Registered Teams"}>

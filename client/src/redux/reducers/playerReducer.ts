@@ -52,8 +52,6 @@ const userSlice = createSlice({
     });
     builder.addCase(fetchPlayer.fulfilled, (state, action) => {
       const { name, awards, positions, stats, teams, leagues } = action.payload;
-
-      console.log("in reducer: ", action.payload);
       state.name = name;
       state.leagues = leagues;
       state.teams = teams;

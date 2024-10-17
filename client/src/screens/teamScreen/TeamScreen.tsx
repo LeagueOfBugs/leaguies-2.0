@@ -38,17 +38,18 @@ const TeamScreen = () => {
   const { teamId } = useParams();
 
   const {
-    data: teams,
+    data: team,
     isLoading,
     error,
   } = useSWR(teamId ? `team-${teamId}` : null, () => fetchTeam(teamId ?? ""));
 
   const navigate = useNavigate();
-  console.log(teams);
+
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
+  console.log(team);
   return (
-    <TeamProvider value={teams}>
+    <TeamProvider value={team}>
       <div className="flex flex-col items-center w-svw space-y-5">
         <ChevronLeft
           className="w-8 h-8 self-baseline mr-5 mt-2"
@@ -57,7 +58,8 @@ const TeamScreen = () => {
         <div>
           <Badge />
         </div>
-        <div>{teamId}</div>
+        <div>{team.league.name}</div>
+        <div>{team.name}</div>
         <div className="max-w-52">
           <CTAButton ctas={teamCTA} />
         </div>
