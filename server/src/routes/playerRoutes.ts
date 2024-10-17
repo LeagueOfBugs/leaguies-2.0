@@ -7,11 +7,13 @@ import {
   findPlayer,
   createPlayers,
   findPlayerLeagues,
+  getfreeAgents,
 } from "../controllers/playerController";
 import { getUnregisteredTeams } from "../controllers/teamController";
 
 async function playerRoutes(server: FastifyInstance) {
   server.get("/", getPlayers);
+  server.get("/free-agents", getfreeAgents);
   server.post("/create", createPlayer);
   server.post("/create-bulk", createPlayers);
   server.get("/:id", findPlayer);

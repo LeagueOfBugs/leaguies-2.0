@@ -18,6 +18,26 @@ export const getPlayers = async (
   }
 };
 
+export const getfreeAgents = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  try {
+    const freeAgents = await prisma.player.findMany({
+      where: {
+        teams: {
+          none: {},
+        },
+      },
+    });
+    reply.send(freeAgents);
+  } catch (error) {
+    return reply.status(500).send({
+      error: "An error occurred while fetching free agents.",
+    });
+  }
+};
+
 export const findPlayer = async (
   request: FastifyRequest,
   reply: FastifyReply
