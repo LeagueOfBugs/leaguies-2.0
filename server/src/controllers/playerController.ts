@@ -205,7 +205,7 @@ export const findPlayer = async (
 
     const stats = player?.stats.reduce(
       (groupedStats: Record<string, any>, currentStat) => {
-        const sport = currentStat.statType.sport.name;
+        const sport = currentStat.statType.sport.name.toLocaleLowerCase();
 
         if (!groupedStats[sport]) {
           groupedStats[sport] = [];
@@ -220,7 +220,7 @@ export const findPlayer = async (
       {}
     );
 
-    console.log(stats);
+    const awards = player?.awards.map((award) => award.name);
 
     const formattedPlayer = {
       id: player?.id,
@@ -228,8 +228,8 @@ export const findPlayer = async (
       leagues: leagues,
       teams: teams,
       positions: positions,
-      stats: stats,
-      awards: [],
+      stats: [stats],
+      awards: awards,
     };
 
     return reply.status(200).send(formattedPlayer);
