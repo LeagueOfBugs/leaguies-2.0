@@ -8,6 +8,7 @@ import {
   createPlayers,
   findPlayerLeagues,
 } from "../controllers/playerController";
+import { getUnregisteredTeams } from "../controllers/teamController";
 
 async function playerRoutes(server: FastifyInstance) {
   server.get("/", getPlayers);

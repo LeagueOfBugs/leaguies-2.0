@@ -23,11 +23,12 @@ export const getUnregisteredTeams = async (
   reply: FastifyReply
 ) => {
   try {
-    const leaguelessTeams = prisma.team.findMany({
+    const leaguelessTeams = await prisma.team.findMany({
       where: {
         leagueId: null,
       },
     });
+    console.log(leaguelessTeams);
     reply.send(leaguelessTeams);
   } catch (error) {
     return reply.status(500).send({
@@ -64,10 +65,120 @@ export const findTeam = async (
         id: parseInt(id),
       },
       include: {
-        players: true,
+        league: true,
+        seasons: {
+          include: {
+            season: {
+              select: {
+                id: true,
+                name: true,
+                active: true,
+                trophy: true,
+                winnerTeam: true,
+                startDate: true,
+                endDate: true,
+              },
+            },
+          },
+        },
+        winningSeasons: true,
+        trophies: true,
+        staff: {
+          include: {
+            staff: {
+              select: {
+                name: true,
+                role: true,
+              },
+            },
+          },
+        },
+        players: {
+          include: {
+            player: {
+              select: {
+                name: true,
+                positions: {
+                  include: {
+                    position: {
+                      select: {
+                        name: true,
+                        abbreviation: true,
+                        sportId: true,
+                        subPositions: {
+                          select: {
+                            name: true,
+                            abbreviation: true,
+                            id: true,
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     });
-    return reply.status(200).send(team);
+
+    const formatTeamSeason = () => {
+      return team?.seasons?.map((season) => {
+        return {
+          id: season.season.id,
+          name: season.season.name,
+          active: season.season.active,
+          startDate: season.season.startDate,
+          endDate: season.season.endDate,
+          trophy: season.season.trophy ?? null,
+          wins: season.wins,
+          losses: season.losses,
+          draws: season.draws,
+          winnerTeam: season.season.winnerTeam ?? null,
+        };
+      });
+    };
+
+    const formatStaff = () => {
+      return team?.staff?.map((staff) => {
+        return {
+          id: staff.id,
+          name: staff.staff.name,
+          role: staff.role,
+        };
+      });
+    };
+
+    const formatPlayers = () => {
+      return team?.players?.map((player) => {
+        return {
+          id: player.playerId,
+          name: player.player.name,
+          positions: player.player.positions.map((position) => {
+            const subPositionId = position.subPositionId;
+            return {
+              position: position.position.name,
+              abbreviation: position.position.abbreviation,
+              subPositions: position.position.subPositions.find(
+                (subPosition) => {
+                  return subPositionId === subPosition.id;
+                }
+              ),
+            };
+          }),
+        };
+      });
+    };
+
+    const formattedTeam = {
+      ...team,
+      seasons: formatTeamSeason(),
+      staff: formatStaff(),
+      players: formatPlayers(),
+    };
+
+    return reply.status(200).send(formattedTeam);
   } catch (error) {
     return reply.status(500).send({
       error: "An error occurred while fetching team.",
