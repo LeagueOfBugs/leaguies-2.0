@@ -16,7 +16,7 @@ const Teams = () => {
       <DisplayCard header="Teams">
         <ul>
           {teams.map((team) => (
-            <TeamItem key={team.name} teamName={team.name} />
+            <TeamItem key={team.name} teamId={team.id} teamName={team.name} />
           ))}
         </ul>
       </DisplayCard>

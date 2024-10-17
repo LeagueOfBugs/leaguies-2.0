@@ -4,6 +4,9 @@ import CTAButton from "../../components/CTAButton";
 import { useParams } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { TeamProvider } from "../../context/teamContext";
+import useSWR from "swr";
+import fetchTeam from "../../service/fetchTeam";
 
 const teamScreenNavLinks = [
   {
@@ -33,23 +36,34 @@ const teamCTA = [
 
 const TeamScreen = () => {
   const { teamId } = useParams();
-  const navigate = useNavigate();
 
+  const {
+    data: teams,
+    isLoading,
+    error,
+  } = useSWR(teamId ? `team-${teamId}` : null, () => fetchTeam(teamId ?? ""));
+
+  const navigate = useNavigate();
+  console.log(teams);
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
   return (
-    <div className="flex flex-col items-center w-svw space-y-5">
-      <ChevronLeft
-        className="w-8 h-8 self-baseline mr-5 mt-2"
-        onClick={() => navigate("/team")}
-      />
-      <div>
-        <Badge />
+    <TeamProvider value={teams}>
+      <div className="flex flex-col items-center w-svw space-y-5">
+        <ChevronLeft
+          className="w-8 h-8 self-baseline mr-5 mt-2"
+          onClick={() => navigate("/team")}
+        />
+        <div>
+          <Badge />
+        </div>
+        <div>{teamId}</div>
+        <div className="max-w-52">
+          <CTAButton ctas={teamCTA} />
+        </div>
+        <NavLayout navLinks={teamScreenNavLinks} />
       </div>
-      <div>Team: {teamId}</div>
-      <div className="max-w-52">
-        <CTAButton ctas={teamCTA} />
-      </div>
-      <NavLayout navLinks={teamScreenNavLinks} />
-    </div>
+    </TeamProvider>
   );
 };
 

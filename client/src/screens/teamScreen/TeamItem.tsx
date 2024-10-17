@@ -2,12 +2,13 @@ import { Link } from "react-router-dom";
 
 interface TeamItemProps {
   teamName: string;
+  teamId: number;
 }
 
-const TeamItem = ({ teamName }: TeamItemProps) => {
+const TeamItem = ({ teamName, teamId }: TeamItemProps) => {
   return (
     <li>
-      <Link to={teamName}>{teamName}</Link>
+      <Link to={teamId.toString()}>{teamName}</Link>
     </li>
   );
 };
