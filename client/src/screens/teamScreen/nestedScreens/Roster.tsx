@@ -3,6 +3,7 @@ import DisplayCard from "../../../components/displayCard/DisplayCard";
 import SubScreenLayout from "../../../components/SubScreenLayout";
 import { useTeam } from "../../../hooks/useTeam";
 import fetchFreeAgents from "../../../service/fetchFreeAgents";
+import { Plus } from "lucide-react";
 
 const Roster = () => {
   // FIX TEAM TYPES
@@ -12,6 +13,17 @@ const Roster = () => {
 
   if (error) return <div>Failed to load</div>;
   if (!players) return <div>Loading...</div>;
+  const playerLimit = team?.playerLimit - team?.players?.length;
+  const openRosterSpots = [];
+
+  for (let i = 0; i < playerLimit; i++) {
+    openRosterSpots.push(
+      <div className="flex flex-row space-x-2">
+        <Plus />
+        <span>Invite a player</span>
+      </div>
+    );
+  }
 
   return (
     <SubScreenLayout>
@@ -46,6 +58,7 @@ const Roster = () => {
               </li>
             );
           })}
+          {...openRosterSpots}
         </ul>
       </DisplayCard>
 

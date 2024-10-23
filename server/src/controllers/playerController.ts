@@ -115,10 +115,18 @@ export const findPlayer = async (
               select: {
                 id: true,
                 name: true,
+                teamLimit: true,
                 active: true,
                 teams: true,
                 seasons: true,
                 sportId: true,
+                staff: {
+                  select: {
+                    id: true,
+                    role: true,
+                    leagueId: true,
+                  },
+                },
                 players: {
                   include: {
                     player: {
@@ -187,10 +195,13 @@ export const findPlayer = async (
       const players = formatLeaguePlayers(league.league.players);
       const teams = formatLeagueTeams(league.league.teams);
       const seasons = formatLeagueSeasons(league.league.seasons);
+      console.log(league.league.staff);
       return {
         id: league.league.id,
         name: league.league.name,
         active: league.league.active,
+        teamLimit: league.league.teamLimit,
+        staff: league.league.staff,
         sport: sports[sportId],
         players: players,
         seasons: seasons,

@@ -1,159 +1,72 @@
-interface RootState {
-  player: User;
-  leagues: League[];
-}
-// user reducer types
-interface PlayerSportAssociation {
-  playerId: number;
-  sportId: number;
-  sport: {
-    name: string;
-  };
-}
+type Sports =
+  | "soccer"
+  | "football"
+  | "basketball"
+  | "baseball"
+  | "hockey"
+  | "volleyball";
 
-interface PlayerSportResponse {
-  sports: PlayerSportAssociation[] | [];
-}
-
-interface PlayerStatsAssociation {
-  id: number;
-  playerId: number;
-  statId: number;
-  statType: {
-    name: string;
-  };
-  value: number;
-}
-interface PlayerStatsResponse {
-  stats: PlayerStatsAssociation[];
-}
-
-interface Stat {
-  name: string;
-  value: number;
-}
-
-type Sports = 'soccer' | 'football' | 'basketball' | 'baseball' | 'hockey' | 'volleyball';
-
-interface PlayerStats {
+type PlayerStats = {
   [key in Sports]?: Stat[];
-}
+};
 
-interface PlayerPositionAssociation {
-  playerId: number;
-  positionId: number;
-  position: {
-    abbreviation: string;
-    name: string;
-    sport: {
-      name: string;
-    };
-    subPositions: SubPositionResponse[];
-  };
-  subPositionId: number;
-}
-
-interface SubPositionResponse {
+type SubPosition = {
   name: string;
-  id: number;
   abbreviation: string;
-}
+};
 
-interface PlayerPositionResponse {
-  positions: PlayerPositionAssociation[] | [];
-}
-
-interface PlayerPositions {
+type Position = {
   sport: string;
   position: string;
   positionAbbreviation: string;
-  subPosition: string | null;
-}
+  subPosition: SubPosition;
+};
 
-interface PlayerTeamsAssociation {
-  playerId: number;
-  teamId: number;
-  team: {
-    name: string;
-    league?: {
-      name: string;
-    };
-  };
-}
+type Award = {
+  name: string;
+};
 
-interface PlayerTeamResponse {
-  teams: PlayerTeamsAssociation[] | [];
-}
-
-interface PlayerTeams {
+type BaseEntity = {
   id: number;
   name: string;
-}
+};
 
-interface PlayerLeagueAssociation {
-  league: {
-    name: string;
-  };
-  leagueId: number;
-  playerId: number;
-}
-
-interface PlayerLeaguesResponse {
-  leagues: PlayerLeagueAssociation[] | [];
-}
-
-interface PlayerLeagues {
-  leagueId: number;
-  name: string;
-}
-
-interface Award {
-  name: number;
-}
-
-interface Player {
-  id: string | null;
-  name: string;
-  awards?: Award[];
-  positions?: PlayerPositions[] | [];
-  stats?: PlayerStats[] | [];
-  teams?: PlayerTeams[] | [];
-  leagues?: PlayerLeagues[] | [];
-  loading?: boolean;
-  error?: string | null;
-}
-
-interface Seasons {
-  seasons: Season[];
-  loading?: boolean;
-  error?: string | null;
-}
-
-interface Season {
-  id: string;
-  name: string;
+type League = BaseEntity & {
   active: boolean;
-  startDate?: Date;
-  endDate?: Date;
-  trophy?: string;
-}
-
-interface Team {
-  id: number;
-  name: string;
-}
-
-interface Players {
-  id: number;
-  name: string;
-}
-
-interface League {
-  active: boolean;
-  id: number;
-  name: string;
-  players?: Players[];
+  teamLimit: number;
+  staff: Staff[];
+  sport: string;
+  players?: Player[];
   seasons?: Season[];
-  sport?: string;
   teams?: Team[];
+};
+
+type Staff = BaseEntity & {
+  role: string;
+  leagueId: number;
+};
+
+type Season = BaseEntity & {
+  active: boolean;
+  startDate: Date;
+  endDate: Date;
+  trophy: string;
+};
+
+type Team = BaseEntity & {
+  active?: boolean;
+};
+
+type Player = BaseEntity & {
+  leagues?: League[];
+  teams?: Team[];
+  positions?: Position[];
+  stats?: PlayerStats[];
+  awards?: Award[];
+  loading?: boolean;
+  error?: string | null;
+};
+
+interface RootState {
+  player: Player;
 }

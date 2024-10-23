@@ -1,15 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userSlice from "./reducers/playerReducer";
-import leagueSlice from "./reducers/leagueReducer";
 
 const store = configureStore({
   reducer: {
     player: userSlice.reducer,
-    // seasons: seasonSlice.reducer,
-    league: leagueSlice.reducer,
-    // teams: () => {},
-    // players: () => {},
-    // matches: () => {},
   },
   devTools: true,
 });

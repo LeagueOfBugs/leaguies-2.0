@@ -44,10 +44,10 @@ const TeamScreen = () => {
   } = useSWR(teamId ? `team-${teamId}` : null, () => fetchTeam(teamId ?? ""));
 
   const navigate = useNavigate();
-
+  console.log(team);
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
-  console.log(team);
+
   return (
     <TeamProvider value={team}>
       <div className="flex flex-col items-center w-svw space-y-5">

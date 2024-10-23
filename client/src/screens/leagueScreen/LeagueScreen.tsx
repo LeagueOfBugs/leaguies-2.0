@@ -28,9 +28,9 @@ const leagueScreenNavLinks = [
 const LeagueScreen = () => {
   const { leagueId } = useParams();
   const navigate = useNavigate();
-  console.log(leagueId);
+
   const player = useSelector(selectPlayer);
-  console.log(player);
+
   const playerLeague = player.leagues.find(
     (league: League) => league.id === Number(leagueId)
   );
