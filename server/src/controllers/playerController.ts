@@ -152,6 +152,26 @@ export const findPlayer = async (
             },
           },
         },
+        invites: {
+          include: {
+            player: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+            league: {
+              select: {
+                name: true,
+              },
+            },
+            team: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
       },
     });
 
@@ -195,7 +215,7 @@ export const findPlayer = async (
       const players = formatLeaguePlayers(league.league.players);
       const teams = formatLeagueTeams(league.league.teams);
       const seasons = formatLeagueSeasons(league.league.seasons);
-      console.log(league.league.staff);
+
       return {
         id: league.league.id,
         name: league.league.name,
@@ -261,6 +281,7 @@ export const findPlayer = async (
       positions: positions,
       stats: [stats],
       awards: awards,
+      invites: player?.invites,
     };
 
     return reply.status(200).send(formattedPlayer);

@@ -28,7 +28,7 @@ export const getUnregisteredTeams = async (
         leagueId: null,
       },
     });
-    console.log(leaguelessTeams);
+
     reply.send(leaguelessTeams);
   } catch (error) {
     return reply.status(500).send({
@@ -120,6 +120,7 @@ export const findTeam = async (
             },
           },
         },
+        invites: true,
       },
     });
 

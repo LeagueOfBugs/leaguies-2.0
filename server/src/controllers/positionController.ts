@@ -64,14 +64,13 @@ export async function deletePosition(
   reply: FastifyReply
 ) {
   const { id } = request.params as { id: string };
-  console.log(`index: ${id}`);
+
   try {
     const position = await prisma.position.delete({
       where: {
         id: parseInt(id),
       },
     });
-    console.log(`index: ${position}`);
     return reply.status(200).send(position);
   } catch (error) {
     return reply.status(500).send({

@@ -18,6 +18,8 @@ import trophyRoutes from "./routes/trophyRoutes";
 import venueRoutes from "./routes/venueRoutes";
 import associations from "./routes/associationRoutes";
 import fastifyCors from "@fastify/cors";
+import { notificationRoutes } from "./routes/notificationRoutes";
+import { invitationRoutes } from "./routes/invitationRoutes";
 
 dotenv.config();
 
@@ -140,6 +142,8 @@ server.register(seasonRoutes, { prefix: "/api/seasons" });
 server.register(trophyRoutes, { prefix: "/api/trophy" });
 server.register(venueRoutes, { prefix: "/api/venues" });
 server.register(associations, { prefix: "/api/associate" });
+server.register(notificationRoutes, { prefix: "/api/notifications" });
+server.register(invitationRoutes, { prefix: "/api/invitations" });
 
 server.listen({ port: 8080 }, (err, address) => {
   if (err) {

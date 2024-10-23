@@ -10,7 +10,7 @@ export const associationTeamToSeason = async (
     teamId: number;
     seasonId: number;
   };
-  console.log(`index: ${teamId}, ${seasonId}`);
+
   try {
     const teamSeason = await prisma.teamSeason.create({
       data: {

@@ -13,8 +13,6 @@ export async function associationPlayerToStats(
     sportId: number;
   };
 
-  console.log(`index: ${playerId}, ${sportId}`);
-
   const statsPerSport = await prisma.statType.findMany({
     where: {
       sportId: sportId,
@@ -29,7 +27,6 @@ export async function associationPlayerToStats(
 
   try {
     const createPlayerStatsPromises = statsPerSport.map((stats) => {
-      console.log(`stats: ${stats.name}`);
       return prisma.playerStats.create({
         data: {
           player: {

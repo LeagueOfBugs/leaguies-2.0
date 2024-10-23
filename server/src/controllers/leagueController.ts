@@ -24,9 +24,10 @@ export const findLeague = async (
       },
       include: {
         teams: true,
+        invites: true,
       },
     });
-    console.log(`league: ${league}`);
+
     reply.status(200).send(league);
   } catch (error) {
     return reply.status(500).send({

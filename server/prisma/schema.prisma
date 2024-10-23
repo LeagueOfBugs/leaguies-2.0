@@ -133,7 +133,9 @@ model League {
   staff     LeagueStaff[]
   sportId   Int?      
   sport     Sport?    @relation(fields: [sportId], references: [id])
-  players   PlayerLeague[] 
+  players   PlayerLeague[]
+  invites   Invitation[]
+  notifications LeagueNotification[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -152,6 +154,8 @@ model Team {
   trophies    Trophy[]      
   seasons     TeamSeason[]  
   winningSeasons Season[]   @relation("WinningTeam") 
+  invites    Invitation[]
+  notifications TeamNotification[]
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 }
@@ -185,6 +189,8 @@ model Player {
   teams      PlayerTeam[] 
   leagues    PlayerLeague[]
   sports     PlayerSport[]
+  invites    Invitation[]
+  notifications PlayerNotification[]
   createdAt  DateTime      @default(now())
   updatedAt  DateTime      @updatedAt
 }
@@ -284,4 +290,71 @@ model LeagueStaff {
   @@unique([leagueId, staffId])
 }
 
+model Invitation {
+  id           Int       @id @default(autoincrement())
+  status       String?  
+  inviterId    Int?      
+  inviterType  String?   
+  inviteeId    Int       
+  inviteeType  String    
+  leagueId     Int?      
+  league       League?   @relation(fields: [leagueId], references: [id])
+  teamId       Int?      
+  team         Team?     @relation(fields: [teamId], references: [id])
+  playerId     Int?
+  player       Player?   @relation(fields: [playerId], references: [id])
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+
+model Notification {
+  id          Int      @id @default(autoincrement())
+  message     String   
+  receiverId  Int      
+  entityType  String    
+  entityId    Int      
+  createdAt   DateTime @default(now())
+  read        Boolean  @default(false)  
+
+  teams  TeamNotification[]
+  leagues LeagueNotification[]
+  players PlayerNotification[]
+}
+
+model TeamNotification {
+  id          Int       @id @default(autoincrement())
+  teamId      Int
+  notificationId Int
+  notification Notification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+  team        Team       @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  createdAt   DateTime   @default(now())
+  read        Boolean     @default(false)
+
+  @@unique([teamId, notificationId]) // Ensure one notification per team
+}
+
+model LeagueNotification {
+  id          Int       @id @default(autoincrement())
+  leagueId    Int
+  notificationId Int
+  notification Notification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+  league      League     @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  createdAt   DateTime   @default(now())
+  read        Boolean     @default(false)
+
+  @@unique([leagueId, notificationId]) // Ensure one notification per league
+}
+
+model PlayerNotification {
+  id          Int       @id @default(autoincrement())
+  playerId    Int
+  notificationId Int
+  notification Notification @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+  player      Player     @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  createdAt   DateTime   @default(now())
+  read        Boolean     @default(false)
+
+  @@unique([playerId, notificationId]) // Ensure one notification per player
+}
 
