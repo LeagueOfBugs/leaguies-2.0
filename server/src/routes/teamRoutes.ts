@@ -7,6 +7,7 @@ import {
   findTeam,
   getUnregisteredTeams,
   joinLeague,
+  leaveLeague,
 } from "../controllers/teamController";
 
 async function teamRoutes(server: FastifyInstance) {
@@ -17,6 +18,7 @@ async function teamRoutes(server: FastifyInstance) {
   server.delete("/:id", deleteTeam);
   server.put("/:id", updateTeam);
   server.put("/join-league", joinLeague);
+  server.put("/leave-league", leaveLeague);
 }
 
 export default teamRoutes;

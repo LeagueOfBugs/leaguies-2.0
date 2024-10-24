@@ -273,3 +273,23 @@ export const joinLeague = async (
     });
   }
 };
+
+export const leaveLeague = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  const { teamId } = request.body as { teamId: number };
+  try {
+    const team = await prisma.team.update({
+      where: { id: teamId },
+      data: {
+        leagueId: null,
+      },
+    });
+    return reply.send(team);
+  } catch (error) {
+    return reply.status(500).send({
+      error: "An error occurred while leaving the league.",
+    });
+  }
+};
