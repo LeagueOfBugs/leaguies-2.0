@@ -69,6 +69,11 @@ export const findTeam = async (
         league: true,
         invites: {
           select: {
+            id: true,
+            inviterId: true,
+            inviterType: true,
+            inviteeId: true,
+            inviteeType: true,
             status: true,
             league: {
               select: {
