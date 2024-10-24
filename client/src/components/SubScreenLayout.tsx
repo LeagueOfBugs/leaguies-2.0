@@ -5,7 +5,7 @@ interface SubScreenLayoutProps {
 }
 
 const SubScreenLayout: React.FC<SubScreenLayoutProps> = ({ children }) => {
-  return <div className="space-y-2">{children}</div>;
+  return <section className="space-y-2">{children}</section>;
 };
 
 export default SubScreenLayout;

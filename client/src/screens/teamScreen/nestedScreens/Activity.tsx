@@ -1,4 +1,5 @@
 import DisplayCard from "../../../components/displayCard/DisplayCard";
+import { ListItem } from "../../../components/ListItem";
 import SubScreenLayout from "../../../components/SubScreenLayout";
 import { useTeam } from "../../../hooks/useTeam";
 
@@ -24,22 +25,43 @@ const Activity = () => {
     })
     .filter((invite) => invite !== undefined);
 
+  const handleOnAcceptPlayer = () => {};
+
+  const handleOnAcceptTeam = () => {};
+
+  const handleOnDecline = () => {};
+
   return (
     <SubScreenLayout>
       <DisplayCard header={"Team Activity"}>
         <strong>Team Invites</strong>
         <ul>
-          {teamInvites?.map((invite) => {
+          {teamInvites?.map((invite, index) => {
             return (
-              <li key={invite?.leagueInvitation}>{invite.leagueInvitation}</li>
+              <ListItem
+                key={index.toString()}
+                showAcceptDecline
+                onAccept={handleOnAcceptTeam}
+                onDecline={handleOnDecline}
+              >
+                {invite.leagueInvitation}
+              </ListItem>
             );
           })}
         </ul>
-
         <strong>Player Requests</strong>
         <ul>
           {playerInvites?.map((request) => {
-            return <li key={request.requestToJoin}>{request.requestToJoin}</li>;
+            return (
+              <ListItem
+                key={request.requestToJoin}
+                showAcceptDecline
+                onAccept={handleOnAcceptPlayer}
+                onDecline={handleOnDecline}
+              >
+                {request.requestToJoin}
+              </ListItem>
+            );
           })}
         </ul>
       </DisplayCard>
