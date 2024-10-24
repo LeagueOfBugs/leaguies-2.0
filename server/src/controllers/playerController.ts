@@ -54,6 +54,7 @@ export const findPlayer = async (
             team: {
               select: {
                 name: true,
+                invites: true,
                 players: {
                   include: {
                     player: {
@@ -117,6 +118,7 @@ export const findPlayer = async (
                 name: true,
                 teamLimit: true,
                 active: true,
+                invites: true,
                 teams: true,
                 seasons: true,
                 sportId: true,
@@ -191,6 +193,7 @@ export const findPlayer = async (
           id: team.id,
           name: team.name,
           active: team.active,
+          invites: team.invites,
         };
       });
       return formattedTeams;
@@ -223,6 +226,7 @@ export const findPlayer = async (
         teamLimit: league.league.teamLimit,
         staff: league.league.staff,
         sport: sports[sportId],
+        invites: league.league.invites,
         players: players,
         seasons: seasons,
         teams: teams,

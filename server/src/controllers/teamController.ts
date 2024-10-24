@@ -66,6 +66,21 @@ export const findTeam = async (
       },
       include: {
         league: true,
+        invites: {
+          select: {
+            status: true,
+            league: {
+              select: {
+                name: true,
+              },
+            },
+            player: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
         seasons: {
           include: {
             season: {
@@ -120,7 +135,6 @@ export const findTeam = async (
             },
           },
         },
-        invites: true,
       },
     });
 
@@ -177,6 +191,7 @@ export const findTeam = async (
       seasons: formatTeamSeason(),
       staff: formatStaff(),
       players: formatPlayers(),
+      invites: team?.invites,
     };
 
     return reply.status(200).send(formattedTeam);
