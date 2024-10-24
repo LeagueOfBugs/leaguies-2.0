@@ -28,7 +28,6 @@ export const respondToInvite = async (
       response: message,
       id: invitationId,
     });
-    console.log(response);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

@@ -6,7 +6,7 @@ type Sports =
   | "hockey"
   | "volleyball";
 
-type InviteStatus = "pending" | "accepted" | "declined";
+type InviteStatus = "pending" | "accept" | "decline";
 
 type Invite = {
   id: number;

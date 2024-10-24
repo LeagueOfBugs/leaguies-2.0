@@ -6,6 +6,7 @@ import { respondToInvite } from "../../../service/invite";
 
 const Activity = () => {
   const { team } = useTeam();
+
   const teamInvites = team?.invites
     ?.map((invite) => {
       if (invite.league !== null && invite.status === "pending") {
@@ -28,10 +29,42 @@ const Activity = () => {
     })
     .filter((invite) => invite !== undefined);
 
+  const acceptedInvites = team?.invites?.filter((invite) => {
+    const status = invite.status;
+    return status == "accept" || status == "decline";
+  });
+
+  const inviteHistory = [];
+
+  if (acceptedInvites) {
+    for (const invites of acceptedInvites) {
+      console.log(invites);
+      if (invites.league) {
+        if (invites.status === "accept") {
+          inviteHistory.push(
+            <li>
+              {team.name} <span className="text-green-500 ">joined</span>{" "}
+              {invites.league.name}
+            </li>
+          );
+        } else {
+          console.log(invites.status);
+          inviteHistory.push(
+            <li>
+              {team.name}{" "}
+              <span className="text-red-500 ">declined to join</span>{" "}
+              {invites.league.name}
+            </li>
+          );
+        }
+      }
+    }
+  }
+
+  console.log(inviteHistory);
   const handleAccecpt = async (invitationId: number) => {
     const message = "accept";
-    const response = await respondToInvite(message, invitationId);
-    console.log(response);
+    await respondToInvite(message, invitationId);
   };
 
   const handleDecline = async (invitationId: number) => {
@@ -45,7 +78,6 @@ const Activity = () => {
         <strong>Team Invites</strong>
         <ul>
           {teamInvites?.map((invite, index) => {
-            console.log(invite);
             return (
               <ListItem
                 key={index.toString()}
@@ -73,6 +105,10 @@ const Activity = () => {
             );
           })}
         </ul>
+      </DisplayCard>
+
+      <DisplayCard header={"history"}>
+        {<ul>{...inviteHistory}</ul>}
       </DisplayCard>
     </SubScreenLayout>
   );
