@@ -240,3 +240,36 @@ export const deleteTeam = async (
     });
   }
 };
+
+export const joinLeague = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  const { leagueId, teamId } = request.body as {
+    leagueId: number;
+    teamId: number;
+  };
+
+  try {
+    const league = await prisma.league.findUnique({
+      where: { id: leagueId },
+    });
+
+    if (!league) {
+      return reply.status(404).send({ error: "League not found." });
+    }
+
+    const updateTeam = await prisma.team.update({
+      where: { id: teamId },
+      data: {
+        leagueId: leagueId,
+      },
+    });
+
+    return reply.send(updateTeam);
+  } catch (error) {
+    return reply.status(500).send({
+      error: "An error occurred while joining the league.",
+    });
+  }
+};

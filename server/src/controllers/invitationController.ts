@@ -51,3 +51,22 @@ export const createInvitation = async (
     });
   }
 };
+
+export const updateInvitation = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  const { id, response } = request.body as { id: number; response: string };
+  try {
+    const invitation = await prisma.invitation.update({
+      where: { id },
+      data: { status: response },
+    });
+    console.log(invitation);
+    // if (response === "accept"){
+
+    // }
+
+    reply.send(invitation);
+  } catch (error) {}
+};
