@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { FastifyRequest, FastifyReply } from "fastify";
+import { joinLeagueService } from "../service/leagueService";
 
 const prisma = new PrismaClient();
 
@@ -63,10 +64,17 @@ export const updateInvitation = async (
       data: { status: response },
     });
     console.log(invitation);
-    // if (response === "accept"){
-
-    // }
-
+    if (response === "accept") {
+      switch (invitation.inviterType) {
+        case "league":
+          if (invitation.inviteeType === "team") {
+            await joinLeagueService(
+              invitation.inviteeId,
+              invitation.inviterId!
+            );
+          }
+      }
+    }
     reply.send(invitation);
   } catch (error) {}
 };

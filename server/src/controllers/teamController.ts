@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { FastifyRequest } from "fastify/types/request";
 import { FastifyReply } from "fastify/types/reply";
+import { joinLeagueService } from "../service/leagueService";
 
 const prisma = new PrismaClient();
 
@@ -251,21 +252,8 @@ export const joinLeague = async (
   };
 
   try {
-    const league = await prisma.league.findUnique({
-      where: { id: leagueId },
-    });
-
-    if (!league) {
-      return reply.status(404).send({ error: "League not found." });
-    }
-
-    const updateTeam = await prisma.team.update({
-      where: { id: teamId },
-      data: {
-        leagueId: leagueId,
-      },
-    });
-
+    const updateTeam = await joinLeagueService(teamId, leagueId);
+    console.log(updateTeam);
     return reply.send(updateTeam);
   } catch (error) {
     return reply.status(500).send({
