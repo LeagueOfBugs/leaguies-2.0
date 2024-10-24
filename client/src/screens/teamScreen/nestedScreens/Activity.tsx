@@ -2,14 +2,16 @@ import DisplayCard from "../../../components/displayCard/DisplayCard";
 import { ListItem } from "../../../components/ListItem";
 import SubScreenLayout from "../../../components/SubScreenLayout";
 import { useTeam } from "../../../hooks/useTeam";
+import { respondToInvite } from "../../../service/invite";
 
 const Activity = () => {
   const { team } = useTeam();
   const teamInvites = team?.invites
     ?.map((invite) => {
-      if (invite.league !== null) {
+      if (invite.league !== null && invite.status === "pending") {
         return {
-          leagueInvitation: invite?.league?.name,
+          ...invite,
+          league: invite?.league?.name,
         };
       }
     })
@@ -17,19 +19,25 @@ const Activity = () => {
 
   const playerInvites = team?.invites
     ?.map((invite) => {
-      if (invite.player !== null) {
+      if (invite.player !== null && invite.status === "pending") {
         return {
-          requestToJoin: invite?.player?.name,
+          ...invite,
+          player: invite?.player?.name,
         };
       }
     })
     .filter((invite) => invite !== undefined);
 
-  const handleOnAcceptPlayer = () => {};
+  const handleAccecpt = async (invitationId: number) => {
+    const message = "accept";
+    const response = await respondToInvite(message, invitationId);
+    console.log(response);
+  };
 
-  const handleOnAcceptTeam = () => {};
-
-  const handleOnDecline = () => {};
+  const handleDecline = async (invitationId: number) => {
+    const message = "decline";
+    await respondToInvite(message, invitationId);
+  };
 
   return (
     <SubScreenLayout>
@@ -37,14 +45,15 @@ const Activity = () => {
         <strong>Team Invites</strong>
         <ul>
           {teamInvites?.map((invite, index) => {
+            console.log(invite);
             return (
               <ListItem
                 key={index.toString()}
                 showAcceptDecline
-                onAccept={handleOnAcceptTeam}
-                onDecline={handleOnDecline}
+                onAccept={() => handleAccecpt(invite.id)}
+                onDecline={() => handleDecline(invite.id)}
               >
-                {invite.leagueInvitation}
+                {invite.league}
               </ListItem>
             );
           })}
@@ -54,12 +63,12 @@ const Activity = () => {
           {playerInvites?.map((request) => {
             return (
               <ListItem
-                key={request.requestToJoin}
+                key={request.player}
                 showAcceptDecline
-                onAccept={handleOnAcceptPlayer}
-                onDecline={handleOnDecline}
+                onAccept={() => handleAccecpt(request.id)}
+                onDecline={() => handleDecline(request.id)}
               >
-                {request.requestToJoin}
+                {request.player}
               </ListItem>
             );
           })}

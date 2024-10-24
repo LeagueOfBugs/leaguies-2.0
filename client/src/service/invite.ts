@@ -16,3 +16,23 @@ export const createInvite = async (
   });
   return response.data;
 };
+
+export const respondToInvite = async (
+  message: string,
+  invitationId: number
+) => {
+  const inviteEndpoint = "http://localhost:8080/api/invitations/response";
+  console.log(message, invitationId);
+  try {
+    const response = await axios.post(inviteEndpoint, {
+      response: message,
+      id: invitationId,
+    });
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.log(error.response?.data);
+    }
+  }
+};

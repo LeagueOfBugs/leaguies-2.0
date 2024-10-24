@@ -18,8 +18,8 @@ export const ListItem = ({
       <li>{children}</li>
       {showAcceptDecline && (
         <div className="flex flex-row space-x-2">
-          <X color="red" onClick={onDecline} />
-          <Check color="green" onClick={onAccept} />
+          <X color="red" onClick={onDecline} className="cursor-pointer" />
+          <Check color="green" onClick={onAccept} className="cursor-pointer" />
         </div>
       )}
     </div>
