@@ -31,7 +31,7 @@ const LeagueScreen = () => {
 
   const player = useSelector(selectPlayer);
 
-  const playerLeague = player.leagues.find(
+  const playerLeague = player.leagues?.find(
     (league: League) => league.id === Number(leagueId)
   );
 
@@ -39,6 +39,8 @@ const LeagueScreen = () => {
     return <span>League not found</span>;
   }
 
+  console.log(playerLeague);
+  
   return (
     <LeagueProvider value={playerLeague}>
       <div className="flex flex-col items-center w-svw">

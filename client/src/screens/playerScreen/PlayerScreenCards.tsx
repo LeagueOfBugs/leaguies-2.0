@@ -5,7 +5,7 @@ import DisplayCard from "../../components/displayCard/DisplayCard";
 
 const PlayerScreenCards = () => {
   const player: Player = useSelector(selectPlayer);
-
+  console.log(player);
   return (
     <section className="flex flex-col space-y-2 no-scrollbar">
       <DisplayCard header={"Teams"}>
@@ -32,7 +32,6 @@ const PlayerScreenCards = () => {
       <DisplayCard header={"Stats"}>
         {player?.stats?.map((stat) => {
           const [sport] = Object.keys(stat);
-          console.log(sport);
           return (
             <ul key={sport}>
               <span>{sport}</span>

@@ -8,7 +8,6 @@ const Teams = () => {
   const player: Player = useSelector(selectPlayer);
   const teams = player?.teams ?? [];
 
-  console.log(teams);
   if (!teams.length) return <EmptyTeamState />;
 
   return (

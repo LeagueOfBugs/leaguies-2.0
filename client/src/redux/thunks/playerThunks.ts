@@ -11,7 +11,6 @@ export const fetchPlayer = createAsyncThunk<Player>(
     }
     try {
       const response = await axios.get(playerEndpoint);
-      console.log(response.data);
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {

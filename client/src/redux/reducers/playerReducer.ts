@@ -9,6 +9,7 @@ const initialState: Player = {
   positions: [],
   stats: [],
   awards: [],
+  invites: [],
   loading: false,
   error: null,
 };
@@ -23,14 +24,15 @@ const userSlice = createSlice({
       state.error = null;
     });
     builder.addCase(fetchPlayer.fulfilled, (state, action) => {
-      const { name, awards, positions, stats, teams, leagues } = action.payload;
-      console.log(leagues);
+      const { name, awards, positions, stats, teams, leagues, invites } =
+        action.payload;
       state.name = name;
       state.leagues = leagues;
       state.teams = teams;
       state.positions = positions;
       state.stats = stats;
       state.awards = awards;
+      state.invites = invites;
       state.loading = false;
       state.error = null;
     });

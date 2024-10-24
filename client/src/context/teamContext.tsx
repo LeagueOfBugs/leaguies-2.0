@@ -1,7 +1,7 @@
 import React, { createContext, ReactNode } from "react";
 
 export interface TeamContextType {
-  team: Team | null;
+  team: Team ;
 }
 
 export const TeamContext = createContext<TeamContextType | undefined>(

@@ -5,7 +5,7 @@ import { useLeague } from "../../../context/leagueContext";
 const Season = () => {
   const { league } = useLeague();
   const season = league?.seasons?.find((season) => season?.active == true);
-  console.log(season);
+
   return (
     <SubScreenLayout>
       <DisplayCard header="Manager(s)">Manager Information</DisplayCard>

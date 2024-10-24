@@ -6,6 +6,24 @@ type Sports =
   | "hockey"
   | "volleyball";
 
+type InviteStatus = "pending" | "accepted" | "declined";
+
+type Invite = {
+  id: number;
+  status: InviteStatus;
+  inviterId: number;
+  inviterType: string;
+  inviteeId: number;
+  inviteeType: string;
+  leagueId?: number;
+  teamId?: number;
+  playerId?: number;
+  createdAt: Date;
+  updatedAt: Date;
+  league?: League;
+  team?: Team;
+  player?: Player;
+};
 type PlayerStats = {
   [key in Sports]?: Stat[];
 };
@@ -51,10 +69,18 @@ type Season = BaseEntity & {
   startDate: Date;
   endDate: Date;
   trophy: string;
+  wins?: number;
+  losses?: number;
+  draws?: number;
 };
 
 type Team = BaseEntity & {
   active?: boolean;
+  playerLimit: number;
+  players?: Player[];
+  staff?: Staff[];
+  invites?: Invite[];
+  seasons?: Season[];
 };
 
 type Player = BaseEntity & {
@@ -63,6 +89,7 @@ type Player = BaseEntity & {
   positions?: Position[];
   stats?: PlayerStats[];
   awards?: Award[];
+  invites: Invite[];
   loading?: boolean;
   error?: string | null;
 };

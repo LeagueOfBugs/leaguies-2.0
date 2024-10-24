@@ -6,14 +6,15 @@ import fetchFreeAgents from "../../../service/fetchFreeAgents";
 import { Plus } from "lucide-react";
 
 const Roster = () => {
-  // FIX TEAM TYPES
+
   const { team } = useTeam();
 
   const { data: players, error } = useSWR("free-agents", fetchFreeAgents);
 
   if (error) return <div>Failed to load</div>;
   if (!players) return <div>Loading...</div>;
-  const playerLimit = team?.playerLimit - team?.players?.length;
+
+  const playerLimit = team?.playerLimit - (team?.players?.length ?? 0);
   const openRosterSpots = [];
 
   for (let i = 0; i < playerLimit; i++) {
@@ -45,16 +46,7 @@ const Roster = () => {
           {team?.players?.map((player) => {
             return (
               <li key={player.id}>
-                <span>
-                  {player.name} -{" "}
-                  {player.positions.map((pos) => {
-                    return (
-                      <span key={pos}>
-                        {pos.position}: {pos.subPositions.name}
-                      </span>
-                    );
-                  })}
-                </span>
+                <span>{player.name} - </span>
               </li>
             );
           })}
