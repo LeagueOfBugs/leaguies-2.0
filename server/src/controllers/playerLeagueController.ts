@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { FastifyReply, FastifyRequest } from "fastify";
+import { playerJoinLeague } from "../service/playerService";
 
 const prisma = new PrismaClient();
 export const associationPlayerToLeague = async (
@@ -11,16 +12,7 @@ export const associationPlayerToLeague = async (
     leagueId: number;
   };
   try {
-    const playerLeague = await prisma.playerLeague.create({
-      data: {
-        player: {
-          connect: { id: playerId },
-        },
-        league: {
-          connect: { id: leagueId },
-        },
-      },
-    });
+    const playerLeague = await playerJoinLeague(playerId, leagueId);
     return reply.send(playerLeague);
   } catch (error) {
     return reply.status(500).send({
