@@ -7,9 +7,6 @@ const HomeScreen = () => {
       <DisplayCard header={"Leagues Nearby"}>
         Nearby League Information
       </DisplayCard>
-      <DisplayCard header={"invites"}>
-        Nearby League Information
-      </DisplayCard>
     </SubScreenLayout>
   );
 };

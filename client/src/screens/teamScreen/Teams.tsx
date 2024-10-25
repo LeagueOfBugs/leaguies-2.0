@@ -3,6 +3,8 @@ import { selectPlayer } from "../../redux/selectors/playerSelectors";
 import TeamItem from "./TeamItem";
 import EmptyTeamState from "./EmptyTeamState";
 import DisplayCard from "../../components/displayCard/DisplayCard";
+import { Fab } from "../../components/Fab";
+import { Plus } from "lucide-react";
 
 const Teams = () => {
   const player: Player = useSelector(selectPlayer);
@@ -11,7 +13,7 @@ const Teams = () => {
   if (!teams.length) return <EmptyTeamState />;
 
   return (
-    <div className="flex flex-col space-y-2">
+    <section>
       <DisplayCard header="Teams">
         <ul>
           {teams.map((team) => (
@@ -19,7 +21,12 @@ const Teams = () => {
           ))}
         </ul>
       </DisplayCard>
-    </div>
+      <div className="absolute bottom-24 right-5">
+        <Fab>
+          <Plus />
+        </Fab>
+      </div>
+    </section>
   );
 };
 
